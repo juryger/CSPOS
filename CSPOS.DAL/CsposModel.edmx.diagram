@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="d22547aefb874f4c8eab2635640a935f" Name="Diagram1">
+        <EntityTypeShape EntityType="CSPOS.DAL.General.order_items" Width="1.5" PointX="3" PointY="1" />
+        <EntityTypeShape EntityType="CSPOS.DAL.General.spare_parts" Width="1.5" PointX="0.75" PointY="1" />
+        <AssociationConnector Association="CSPOS.DAL.General.FK_OrderItems_SpareParts" />
+        <EntityTypeShape EntityType="CSPOS.DAL.General.orders" Width="1.5" PointX="5.125" PointY="1" />
+        <AssociationConnector Association="CSPOS.DAL.General.FK_OrderItems_Orders" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
