@@ -20,13 +20,18 @@ namespace CSPOS.DAL
         {
         }
     
+    	public csposEntities(string connectionString)
+            : base(connectionString)
+        {
+        }
+    
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<order_items> order_items { get; set; }
-        public virtual DbSet<spare_parts> spare_parts { get; set; }
-        public virtual DbSet<orders> orders { get; set; }
+        public virtual DbSet<catalog> catalogs { get; set; }
+        public virtual DbSet<order> orders { get; set; }
+        public virtual DbSet<orderitem> orderitems { get; set; }
     }
 }

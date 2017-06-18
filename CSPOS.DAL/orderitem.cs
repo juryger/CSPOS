@@ -12,14 +12,14 @@ namespace CSPOS.DAL
     using System;
     using System.Collections.Generic;
     
-    public partial class order_items
+    public partial class orderitem
     {
         public int OrderID { get; set; }
-        public int SparePartID { get; set; }
+        public int CatalogItemID { get; set; }
         public int Quantity { get; set; }
         public decimal Price { get; set; }
     
-        public virtual spare_parts spare_parts { get; set; }
-        public virtual orders orders { get; set; }
+        public virtual catalog catalog { get; set; }
+        public virtual order order { get; set; }
     }
 }

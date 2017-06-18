@@ -1,0 +1,17 @@
+﻿using CSPOS.Domain.Enums;
+using System;
+using System.Collections.Generic;
+
+namespace CSPOS.Domain.Models
+{
+    public class DmOrder
+    {
+        public int OrderID { get; set; }
+        public string CustomerName { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public OrderStatues OrderStatusID { get; set; }
+        public bool Deleted { get; set; }
+
+        public IEnumerable<DmOrderItem> navOrderItems { get; set; }
+    }
+}

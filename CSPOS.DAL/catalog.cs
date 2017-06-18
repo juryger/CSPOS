@@ -12,15 +12,15 @@ namespace CSPOS.DAL
     using System;
     using System.Collections.Generic;
     
-    public partial class spare_parts
+    public partial class catalog
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public spare_parts()
+        public catalog()
         {
-            this.order_items = new HashSet<order_items>();
+            this.orderitems = new HashSet<orderitem>();
         }
     
-        public int SparePartID { get; set; }
+        public int CatalogItemID { get; set; }
         public int CategoryID { get; set; }
         public int MakerID { get; set; }
         public string Name { get; set; }
@@ -32,11 +32,10 @@ namespace CSPOS.DAL
         public Nullable<int> Warranty { get; set; }
         public int ConditionID { get; set; }
         public System.DateTime ModifiedDate { get; set; }
-        public int TypeID { get; set; }
         public bool Deleted { get; set; }
         public System.DateTime RowVersion { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<order_items> order_items { get; set; }
+        public virtual ICollection<orderitem> orderitems { get; set; }
     }
 }

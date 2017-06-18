@@ -12,12 +12,12 @@ namespace CSPOS.DAL
     using System;
     using System.Collections.Generic;
     
-    public partial class orders
+    public partial class order
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public orders()
+        public order()
         {
-            this.order_items = new HashSet<order_items>();
+            this.orderitems = new HashSet<orderitem>();
         }
     
         public int OrderID { get; set; }
@@ -28,6 +28,6 @@ namespace CSPOS.DAL
         public System.DateTime RowVersion { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<order_items> order_items { get; set; }
+        public virtual ICollection<orderitem> orderitems { get; set; }
     }
 }

@@ -1,0 +1,53 @@
+INSERT INTO `cspos`.`catalog`
+(`CategoryID`,
+`MakerID`,
+`Name`,
+`Description`,
+`Price`,
+`InStockNum`,
+`OrigCountry`,
+`ManufactureDate`,
+`Warranty`,
+`ConditionID`,
+`ModifiedDate`,
+`Deleted`)
+VALUES
+(1,
+1,
+'WV Polo windhell 7th',
+'Windglass for WV of 7th generation',
+112.23,
+10,
+'Germany',
+'2015-12-31 23:59:59',
+1,
+3,
+'2017-06-19 23:59:59',
+0);
+
+INSERT INTO `cspos`.`catalog`
+(`CategoryID`,
+`MakerID`,
+`Name`,
+`Description`,
+`Price`,
+`InStockNum`,
+`OrigCountry`,
+`ManufactureDate`,
+`Warranty`,
+`ConditionID`,
+`ModifiedDate`,
+`Deleted`)
+VALUES
+(1,
+1,
+'Windglass glue',
+'Windglass glue for various kinds of windglasses',
+12.03,
+5,
+'Germany',
+'2015-10-23 13:09:59',
+3,
+3,
+'2017-06-20 01:05:59',
+0);

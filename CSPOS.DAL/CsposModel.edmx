@@ -5,13 +5,32 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="CSPOS.DAL.General.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.7" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityType Name="order_items">
+        <EntityType Name="catalog">
+          <Key>
+            <PropertyRef Name="CatalogItemID" />
+          </Key>
+          <Property Name="CatalogItemID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CategoryID" Type="int" Nullable="false" />
+          <Property Name="MakerID" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="Price" Type="decimal" Precision="19" Scale="2" Nullable="false" />
+          <Property Name="InStockNum" Type="int" Nullable="false" />
+          <Property Name="OrigCountry" Type="varchar" MaxLength="255" />
+          <Property Name="ManufactureDate" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="Warranty" Type="int" />
+          <Property Name="ConditionID" Type="int" Nullable="false" />
+          <Property Name="ModifiedDate" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="Deleted" Type="bit" Nullable="false" />
+          <Property Name="RowVersion" Type="timestamp" Precision="0" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="orderitems">
           <Key>
             <PropertyRef Name="OrderID" />
-            <PropertyRef Name="SparePartID" />
+            <PropertyRef Name="CatalogItemID" />
           </Key>
           <Property Name="OrderID" Type="int" Nullable="false" />
-          <Property Name="SparePartID" Type="int" Nullable="false" />
+          <Property Name="CatalogItemID" Type="int" Nullable="false" />
           <Property Name="Quantity" Type="int" Nullable="false" />
           <Property Name="Price" Type="decimal" Precision="19" Scale="2" Nullable="false" />
         </EntityType>
@@ -26,61 +45,41 @@
           <Property Name="Deleted" Type="bit" Nullable="false" />
           <Property Name="RowVersion" Type="timestamp" Precision="0" StoreGeneratedPattern="Identity" Nullable="false" />
         </EntityType>
-        <EntityType Name="spare_parts">
-          <Key>
-            <PropertyRef Name="SparePartID" />
-          </Key>
-          <Property Name="SparePartID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="CategoryID" Type="int" Nullable="false" />
-          <Property Name="MakerID" Type="int" Nullable="false" />
-          <Property Name="Name" Type="varchar" MaxLength="255" Nullable="false" />
-          <Property Name="Description" Type="varchar" MaxLength="500" Nullable="false" />
-          <Property Name="Price" Type="decimal" Precision="19" Scale="2" Nullable="false" />
-          <Property Name="InStockNum" Type="int" Nullable="false" />
-          <Property Name="OrigCountry" Type="varchar" MaxLength="255" />
-          <Property Name="ManufactureDate" Type="datetime" Precision="0" Nullable="false" />
-          <Property Name="Warranty" Type="int" />
-          <Property Name="ConditionID" Type="int" Nullable="false" />
-          <Property Name="ModifiedDate" Type="datetime" Precision="0" Nullable="false" />
-          <Property Name="TypeID" Type="int" Nullable="false" />
-          <Property Name="Deleted" Type="bit" Nullable="false" />
-          <Property Name="RowVersion" Type="timestamp" Precision="0" StoreGeneratedPattern="Identity" Nullable="false" />
-        </EntityType>
+        <Association Name="FK_OrderItems_Catalog">
+          <End Role="catalog" Type="Self.catalog" Multiplicity="1" />
+          <End Role="orderitems" Type="Self.orderitems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="catalog">
+              <PropertyRef Name="CatalogItemID" />
+            </Principal>
+            <Dependent Role="orderitems">
+              <PropertyRef Name="CatalogItemID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_OrderItems_Orders">
           <End Role="orders" Type="Self.orders" Multiplicity="1" />
-          <End Role="order_items" Type="Self.order_items" Multiplicity="*" />
+          <End Role="orderitems" Type="Self.orderitems" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="orders">
               <PropertyRef Name="OrderID" />
             </Principal>
-            <Dependent Role="order_items">
+            <Dependent Role="orderitems">
               <PropertyRef Name="OrderID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_OrderItems_SpareParts">
-          <End Role="spare_parts" Type="Self.spare_parts" Multiplicity="1" />
-          <End Role="order_items" Type="Self.order_items" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="spare_parts">
-              <PropertyRef Name="SparePartID" />
-            </Principal>
-            <Dependent Role="order_items">
-              <PropertyRef Name="SparePartID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="CSPOSDALGeneralStoreContainer">
-          <EntitySet Name="order_items" EntityType="Self.order_items" Schema="cspos" store:Type="Tables" />
+          <EntitySet Name="catalog" EntityType="Self.catalog" Schema="cspos" store:Type="Tables" />
+          <EntitySet Name="orderitems" EntityType="Self.orderitems" Schema="cspos" store:Type="Tables" />
           <EntitySet Name="orders" EntityType="Self.orders" Schema="cspos" store:Type="Tables" />
-          <EntitySet Name="spare_parts" EntityType="Self.spare_parts" Schema="cspos" store:Type="Tables" />
+          <AssociationSet Name="FK_OrderItems_Catalog" Association="Self.FK_OrderItems_Catalog">
+            <End Role="catalog" EntitySet="catalog" />
+            <End Role="orderitems" EntitySet="orderitems" />
+          </AssociationSet>
           <AssociationSet Name="FK_OrderItems_Orders" Association="Self.FK_OrderItems_Orders">
             <End Role="orders" EntitySet="orders" />
-            <End Role="order_items" EntitySet="order_items" />
-          </AssociationSet>
-          <AssociationSet Name="FK_OrderItems_SpareParts" Association="Self.FK_OrderItems_SpareParts">
-            <End Role="spare_parts" EntitySet="spare_parts" />
-            <End Role="order_items" EntitySet="order_items" />
+            <End Role="orderitems" EntitySet="orderitems" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -88,35 +87,23 @@
     <edmx:ConceptualModels>
       <Schema Namespace="CSPOS.DAL.General" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="csposEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="order_items" EntityType="CSPOS.DAL.General.order_items" />
-          <EntitySet Name="spare_parts" EntityType="CSPOS.DAL.General.spare_parts" />
-          <AssociationSet Name="FK_OrderItems_SpareParts" Association="CSPOS.DAL.General.FK_OrderItems_SpareParts">
-            <End Role="spare_parts" EntitySet="spare_parts" />
-            <End Role="order_items" EntitySet="order_items" />
+          <EntitySet Name="catalogs" EntityType="CSPOS.DAL.General.catalog" />
+          <EntitySet Name="orders" EntityType="CSPOS.DAL.General.order" />
+          <EntitySet Name="orderitems" EntityType="CSPOS.DAL.General.orderitem" />
+          <AssociationSet Name="FK_OrderItems_Catalog" Association="CSPOS.DAL.General.FK_OrderItems_Catalog">
+            <End Role="catalog" EntitySet="catalogs" />
+            <End Role="orderitem" EntitySet="orderitems" />
           </AssociationSet>
-          <EntitySet Name="orders" EntityType="CSPOS.DAL.General.orders" />
           <AssociationSet Name="FK_OrderItems_Orders" Association="CSPOS.DAL.General.FK_OrderItems_Orders">
-            <End Role="orders" EntitySet="orders" />
-            <End Role="order_items" EntitySet="order_items" />
+            <End Role="order" EntitySet="orders" />
+            <End Role="orderitem" EntitySet="orderitems" />
           </AssociationSet>
         </EntityContainer>
-        <EntityType Name="order_items">
+        <EntityType Name="catalog">
           <Key>
-            <PropertyRef Name="OrderID" />
-            <PropertyRef Name="SparePartID" />
+            <PropertyRef Name="CatalogItemID" />
           </Key>
-          <Property Name="OrderID" Type="Int32" Nullable="false" />
-          <Property Name="SparePartID" Type="Int32" Nullable="false" />
-          <Property Name="Quantity" Type="Int32" Nullable="false" />
-          <Property Name="Price" Type="Decimal" Nullable="false" />
-          <NavigationProperty Name="spare_parts" Relationship="CSPOS.DAL.General.FK_OrderItems_SpareParts" FromRole="order_items" ToRole="spare_parts" />
-          <NavigationProperty Name="orders" Relationship="CSPOS.DAL.General.FK_OrderItems_Orders" FromRole="order_items" ToRole="orders" />
-        </EntityType>
-        <EntityType Name="spare_parts">
-          <Key>
-            <PropertyRef Name="SparePartID" />
-          </Key>
-          <Property Name="SparePartID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CatalogItemID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="CategoryID" Type="Int32" Nullable="false" />
           <Property Name="MakerID" Type="Int32" Nullable="false" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
@@ -128,24 +115,11 @@
           <Property Name="Warranty" Type="Int32" />
           <Property Name="ConditionID" Type="Int32" Nullable="false" />
           <Property Name="ModifiedDate" Type="DateTime" Nullable="false" />
-          <Property Name="TypeID" Type="Int32" Nullable="false" />
           <Property Name="Deleted" Type="Boolean" Nullable="false" />
-          <Property Name="RowVersion" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <NavigationProperty Name="order_items" Relationship="CSPOS.DAL.General.FK_OrderItems_SpareParts" FromRole="spare_parts" ToRole="order_items" />
+          <Property Name="RowVersion" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" ConcurrencyMode="Fixed" />
+          <NavigationProperty Name="orderitems" Relationship="CSPOS.DAL.General.FK_OrderItems_Catalog" FromRole="catalog" ToRole="orderitem" />
         </EntityType>
-        <Association Name="FK_OrderItems_SpareParts">
-          <End Type="CSPOS.DAL.General.spare_parts" Role="spare_parts" Multiplicity="1" />
-          <End Type="CSPOS.DAL.General.order_items" Role="order_items" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="spare_parts">
-              <PropertyRef Name="SparePartID" />
-            </Principal>
-            <Dependent Role="order_items">
-              <PropertyRef Name="SparePartID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="orders">
+        <EntityType Name="order">
           <Key>
             <PropertyRef Name="OrderID" />
           </Key>
@@ -154,17 +128,41 @@
           <Property Name="CreatedDate" Type="DateTime" Nullable="false" />
           <Property Name="OrderStatusID" Type="Int32" Nullable="false" />
           <Property Name="Deleted" Type="Boolean" Nullable="false" />
-          <Property Name="RowVersion" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <NavigationProperty Name="order_items" Relationship="CSPOS.DAL.General.FK_OrderItems_Orders" FromRole="orders" ToRole="order_items" />
+          <Property Name="RowVersion" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" ConcurrencyMode="Fixed" />
+          <NavigationProperty Name="orderitems" Relationship="CSPOS.DAL.General.FK_OrderItems_Orders" FromRole="order" ToRole="orderitem" />
         </EntityType>
-        <Association Name="FK_OrderItems_Orders">
-          <End Type="CSPOS.DAL.General.orders" Role="orders" Multiplicity="1" />
-          <End Type="CSPOS.DAL.General.order_items" Role="order_items" Multiplicity="*" />
+        <EntityType Name="orderitem">
+          <Key>
+            <PropertyRef Name="OrderID" />
+            <PropertyRef Name="CatalogItemID" />
+          </Key>
+          <Property Name="OrderID" Type="Int32" Nullable="false" />
+          <Property Name="CatalogItemID" Type="Int32" Nullable="false" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <Property Name="Price" Type="Decimal" Nullable="false" />
+          <NavigationProperty Name="catalog" Relationship="CSPOS.DAL.General.FK_OrderItems_Catalog" FromRole="orderitem" ToRole="catalog" />
+          <NavigationProperty Name="order" Relationship="CSPOS.DAL.General.FK_OrderItems_Orders" FromRole="orderitem" ToRole="order" />
+        </EntityType>
+        <Association Name="FK_OrderItems_Catalog">
+          <End Type="CSPOS.DAL.General.catalog" Role="catalog" Multiplicity="1" />
+          <End Type="CSPOS.DAL.General.orderitem" Role="orderitem" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="orders">
+            <Principal Role="catalog">
+              <PropertyRef Name="CatalogItemID" />
+            </Principal>
+            <Dependent Role="orderitem">
+              <PropertyRef Name="CatalogItemID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderItems_Orders">
+          <End Type="CSPOS.DAL.General.order" Role="order" Multiplicity="1" />
+          <End Type="CSPOS.DAL.General.orderitem" Role="orderitem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="order">
               <PropertyRef Name="OrderID" />
             </Principal>
-            <Dependent Role="order_items">
+            <Dependent Role="orderitem">
               <PropertyRef Name="OrderID" />
             </Dependent>
           </ReferentialConstraint>
@@ -175,22 +173,11 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="CSPOSDALGeneralStoreContainer" CdmEntityContainer="csposEntities">
-          <EntitySetMapping Name="order_items">
-            <EntityTypeMapping TypeName="CSPOS.DAL.General.order_items">
-              <MappingFragment StoreEntitySet="order_items">
-                <ScalarProperty Name="Price" ColumnName="Price" />
-                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
-                <ScalarProperty Name="SparePartID" ColumnName="SparePartID" />
-                <ScalarProperty Name="OrderID" ColumnName="OrderID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="spare_parts">
-            <EntityTypeMapping TypeName="CSPOS.DAL.General.spare_parts">
-              <MappingFragment StoreEntitySet="spare_parts">
+          <EntitySetMapping Name="catalogs">
+            <EntityTypeMapping TypeName="CSPOS.DAL.General.catalog">
+              <MappingFragment StoreEntitySet="catalog">
                 <ScalarProperty Name="RowVersion" ColumnName="RowVersion" />
                 <ScalarProperty Name="Deleted" ColumnName="Deleted" />
-                <ScalarProperty Name="TypeID" ColumnName="TypeID" />
                 <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
                 <ScalarProperty Name="ConditionID" ColumnName="ConditionID" />
                 <ScalarProperty Name="Warranty" ColumnName="Warranty" />
@@ -202,18 +189,28 @@
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="MakerID" ColumnName="MakerID" />
                 <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
-                <ScalarProperty Name="SparePartID" ColumnName="SparePartID" />
+                <ScalarProperty Name="CatalogItemID" ColumnName="CatalogItemID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="orders">
-            <EntityTypeMapping TypeName="CSPOS.DAL.General.orders">
+            <EntityTypeMapping TypeName="CSPOS.DAL.General.order">
               <MappingFragment StoreEntitySet="orders">
                 <ScalarProperty Name="RowVersion" ColumnName="RowVersion" />
                 <ScalarProperty Name="Deleted" ColumnName="Deleted" />
                 <ScalarProperty Name="OrderStatusID" ColumnName="OrderStatusID" />
                 <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
                 <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="OrderID" ColumnName="OrderID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="orderitems">
+            <EntityTypeMapping TypeName="CSPOS.DAL.General.orderitem">
+              <MappingFragment StoreEntitySet="orderitems">
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="CatalogItemID" ColumnName="CatalogItemID" />
                 <ScalarProperty Name="OrderID" ColumnName="OrderID" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -232,7 +229,7 @@
     <Options>
       <DesignerInfoPropertySet>
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
-        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
         <DesignerProperty Name="UseLegacyProvider" Value="false" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
