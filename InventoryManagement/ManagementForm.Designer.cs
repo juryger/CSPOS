@@ -36,7 +36,10 @@
             this.tcContent = new System.Windows.Forms.TabControl();
             this.tpCatalog = new System.Windows.Forms.TabPage();
             this.catalogGridPanel = new System.Windows.Forms.Panel();
+            this.lbxCatalog = new System.Windows.Forms.ListBox();
             this.catalogSideBarPanel = new System.Windows.Forms.Panel();
+            this.lbCondition = new System.Windows.Forms.Label();
+            this.cbxCondition = new System.Windows.Forms.ComboBox();
             this.btnCatalogFilter = new System.Windows.Forms.Button();
             this.lbMaker = new System.Windows.Forms.Label();
             this.cbxMaker = new System.Windows.Forms.ComboBox();
@@ -44,20 +47,18 @@
             this.cbxCategory = new System.Windows.Forms.ComboBox();
             this.tpOrders = new System.Windows.Forms.TabPage();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.lbxOrders = new System.Windows.Forms.ListBox();
             this.ordersSidebarPanel = new System.Windows.Forms.Panel();
+            this.cbxOrderStatus = new System.Windows.Forms.ComboBox();
+            this.lbOrderStatus = new System.Windows.Forms.Label();
             this.btnOrderFilter = new System.Windows.Forms.Button();
             this.cbxOrderCustomer = new System.Windows.Forms.ComboBox();
             this.lbCustomer = new System.Windows.Forms.Label();
             this.tsMain = new System.Windows.Forms.ToolStrip();
             this.tsbAdd = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+            this.tsbEdit = new System.Windows.Forms.ToolStripButton();
             this.tsbDelete = new System.Windows.Forms.ToolStripButton();
-            this.lbCondition = new System.Windows.Forms.Label();
-            this.cbxCondition = new System.Windows.Forms.ComboBox();
-            this.lbxCatalog = new System.Windows.Forms.ListBox();
-            this.lbxOrders = new System.Windows.Forms.ListBox();
-            this.cbxOrderStatus = new System.Windows.Forms.ComboBox();
-            this.lbOrderStatus = new System.Windows.Forms.Label();
+            this.tsbRefresh = new System.Windows.Forms.ToolStripButton();
             this.ssMain.SuspendLayout();
             this.tsContainer.ContentPanel.SuspendLayout();
             this.tsContainer.TopToolStripPanel.SuspendLayout();
@@ -151,6 +152,17 @@
             this.catalogGridPanel.Size = new System.Drawing.Size(326, 228);
             this.catalogGridPanel.TabIndex = 9;
             // 
+            // lbxCatalog
+            // 
+            this.lbxCatalog.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lbxCatalog.FormattingEnabled = true;
+            this.lbxCatalog.Location = new System.Drawing.Point(0, 0);
+            this.lbxCatalog.Name = "lbxCatalog";
+            this.lbxCatalog.Size = new System.Drawing.Size(326, 228);
+            this.lbxCatalog.Sorted = true;
+            this.lbxCatalog.TabIndex = 0;
+            this.lbxCatalog.SelectedValueChanged += new System.EventHandler(this.lbxCatalog_SelectedValueChanged);
+            // 
             // catalogSideBarPanel
             // 
             this.catalogSideBarPanel.AutoScroll = true;
@@ -166,6 +178,23 @@
             this.catalogSideBarPanel.Name = "catalogSideBarPanel";
             this.catalogSideBarPanel.Size = new System.Drawing.Size(150, 228);
             this.catalogSideBarPanel.TabIndex = 8;
+            // 
+            // lbCondition
+            // 
+            this.lbCondition.AutoSize = true;
+            this.lbCondition.Location = new System.Drawing.Point(3, 91);
+            this.lbCondition.Name = "lbCondition";
+            this.lbCondition.Size = new System.Drawing.Size(51, 13);
+            this.lbCondition.TabIndex = 6;
+            this.lbCondition.Text = "Condition";
+            // 
+            // cbxCondition
+            // 
+            this.cbxCondition.FormattingEnabled = true;
+            this.cbxCondition.Location = new System.Drawing.Point(6, 107);
+            this.cbxCondition.Name = "cbxCondition";
+            this.cbxCondition.Size = new System.Drawing.Size(141, 21);
+            this.cbxCondition.TabIndex = 5;
             // 
             // btnCatalogFilter
             // 
@@ -231,6 +260,15 @@
             this.panel1.Size = new System.Drawing.Size(326, 228);
             this.panel1.TabIndex = 3;
             // 
+            // lbxOrders
+            // 
+            this.lbxOrders.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lbxOrders.FormattingEnabled = true;
+            this.lbxOrders.Location = new System.Drawing.Point(0, 0);
+            this.lbxOrders.Name = "lbxOrders";
+            this.lbxOrders.Size = new System.Drawing.Size(326, 228);
+            this.lbxOrders.TabIndex = 0;
+            // 
             // ordersSidebarPanel
             // 
             this.ordersSidebarPanel.Controls.Add(this.cbxOrderStatus);
@@ -243,6 +281,23 @@
             this.ordersSidebarPanel.Name = "ordersSidebarPanel";
             this.ordersSidebarPanel.Size = new System.Drawing.Size(150, 228);
             this.ordersSidebarPanel.TabIndex = 2;
+            // 
+            // cbxOrderStatus
+            // 
+            this.cbxOrderStatus.FormattingEnabled = true;
+            this.cbxOrderStatus.Location = new System.Drawing.Point(7, 68);
+            this.cbxOrderStatus.Name = "cbxOrderStatus";
+            this.cbxOrderStatus.Size = new System.Drawing.Size(121, 21);
+            this.cbxOrderStatus.TabIndex = 4;
+            // 
+            // lbOrderStatus
+            // 
+            this.lbOrderStatus.AutoSize = true;
+            this.lbOrderStatus.Location = new System.Drawing.Point(4, 52);
+            this.lbOrderStatus.Name = "lbOrderStatus";
+            this.lbOrderStatus.Size = new System.Drawing.Size(37, 13);
+            this.lbOrderStatus.TabIndex = 3;
+            this.lbOrderStatus.Text = "Status";
             // 
             // btnOrderFilter
             // 
@@ -275,12 +330,13 @@
             // 
             this.tsMain.Dock = System.Windows.Forms.DockStyle.None;
             this.tsMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsbRefresh,
             this.tsbAdd,
-            this.toolStripButton1,
+            this.tsbEdit,
             this.tsbDelete});
             this.tsMain.Location = new System.Drawing.Point(3, 0);
             this.tsMain.Name = "tsMain";
-            this.tsMain.Size = new System.Drawing.Size(168, 25);
+            this.tsMain.Size = new System.Drawing.Size(265, 25);
             this.tsMain.TabIndex = 6;
             this.tsMain.Text = "tsMain";
             // 
@@ -293,14 +349,14 @@
             this.tsbAdd.Text = "Add";
             this.tsbAdd.Click += new System.EventHandler(this.tsbAdd_Click);
             // 
-            // toolStripButton1
+            // tsbEdit
             // 
-            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
-            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(47, 22);
-            this.toolStripButton1.Text = "Edit";
-            this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
+            this.tsbEdit.Image = ((System.Drawing.Image)(resources.GetObject("tsbEdit.Image")));
+            this.tsbEdit.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbEdit.Name = "tsbEdit";
+            this.tsbEdit.Size = new System.Drawing.Size(47, 22);
+            this.tsbEdit.Text = "Edit";
+            this.tsbEdit.Click += new System.EventHandler(this.tsbEdit_Click);
             // 
             // tsbDelete
             // 
@@ -311,57 +367,14 @@
             this.tsbDelete.Text = "Delete";
             this.tsbDelete.Click += new System.EventHandler(this.tsbDelete_Click);
             // 
-            // lbCondition
+            // tsbRefresh
             // 
-            this.lbCondition.AutoSize = true;
-            this.lbCondition.Location = new System.Drawing.Point(3, 91);
-            this.lbCondition.Name = "lbCondition";
-            this.lbCondition.Size = new System.Drawing.Size(51, 13);
-            this.lbCondition.TabIndex = 6;
-            this.lbCondition.Text = "Condition";
-            // 
-            // cbxCondition
-            // 
-            this.cbxCondition.FormattingEnabled = true;
-            this.cbxCondition.Location = new System.Drawing.Point(6, 107);
-            this.cbxCondition.Name = "cbxCondition";
-            this.cbxCondition.Size = new System.Drawing.Size(141, 21);
-            this.cbxCondition.TabIndex = 5;
-            // 
-            // lbxCatalog
-            // 
-            this.lbxCatalog.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lbxCatalog.FormattingEnabled = true;
-            this.lbxCatalog.Location = new System.Drawing.Point(0, 0);
-            this.lbxCatalog.Name = "lbxCatalog";
-            this.lbxCatalog.Size = new System.Drawing.Size(326, 228);
-            this.lbxCatalog.TabIndex = 0;
-            // 
-            // lbxOrders
-            // 
-            this.lbxOrders.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lbxOrders.FormattingEnabled = true;
-            this.lbxOrders.Location = new System.Drawing.Point(0, 0);
-            this.lbxOrders.Name = "lbxOrders";
-            this.lbxOrders.Size = new System.Drawing.Size(326, 228);
-            this.lbxOrders.TabIndex = 0;
-            // 
-            // cbxOrderStatus
-            // 
-            this.cbxOrderStatus.FormattingEnabled = true;
-            this.cbxOrderStatus.Location = new System.Drawing.Point(7, 68);
-            this.cbxOrderStatus.Name = "cbxOrderStatus";
-            this.cbxOrderStatus.Size = new System.Drawing.Size(121, 21);
-            this.cbxOrderStatus.TabIndex = 4;
-            // 
-            // lbOrderStatus
-            // 
-            this.lbOrderStatus.AutoSize = true;
-            this.lbOrderStatus.Location = new System.Drawing.Point(4, 52);
-            this.lbOrderStatus.Name = "lbOrderStatus";
-            this.lbOrderStatus.Size = new System.Drawing.Size(37, 13);
-            this.lbOrderStatus.TabIndex = 3;
-            this.lbOrderStatus.Text = "Status";
+            this.tsbRefresh.Image = ((System.Drawing.Image)(resources.GetObject("tsbRefresh.Image")));
+            this.tsbRefresh.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbRefresh.Name = "tsbRefresh";
+            this.tsbRefresh.Size = new System.Drawing.Size(66, 22);
+            this.tsbRefresh.Text = "Refresh";
+            this.tsbRefresh.Click += new System.EventHandler(this.tsbRefresh_Click);
             // 
             // ManagementForm
             // 
@@ -405,7 +418,7 @@
         private System.Windows.Forms.ToolStrip tsMain;
         private System.Windows.Forms.ToolStripButton tsbAdd;
         private System.Windows.Forms.ToolStripButton tsbDelete;
-        private System.Windows.Forms.ToolStripButton toolStripButton1;
+        private System.Windows.Forms.ToolStripButton tsbEdit;
         private System.Windows.Forms.Panel contentPanel;
         private System.Windows.Forms.TabControl tcContent;
         private System.Windows.Forms.TabPage tpCatalog;
@@ -428,6 +441,7 @@
         private System.Windows.Forms.ListBox lbxOrders;
         private System.Windows.Forms.ComboBox cbxOrderStatus;
         private System.Windows.Forms.Label lbOrderStatus;
+        private System.Windows.Forms.ToolStripButton tsbRefresh;
     }
 }
 

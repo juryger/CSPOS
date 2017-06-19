@@ -30,9 +30,10 @@ namespace CSPOS.DAL
         public string OrigCountry { get; set; }
         public System.DateTime ManufactureDate { get; set; }
         public Nullable<int> Warranty { get; set; }
-        public int ConditionID { get; set; }
+        public Nullable<int> ConditionID { get; set; }
         public System.DateTime ModifiedDate { get; set; }
         public bool Deleted { get; set; }
+        public int ItemType { get; set; }
         public System.DateTime RowVersion { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

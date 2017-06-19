@@ -31,7 +31,7 @@ namespace CSPOS.DAL
         }
     
         public virtual DbSet<catalog> catalogs { get; set; }
-        public virtual DbSet<order> orders { get; set; }
         public virtual DbSet<orderitem> orderitems { get; set; }
+        public virtual DbSet<order> orders { get; set; }
     }
 }

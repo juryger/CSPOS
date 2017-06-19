@@ -1,9 +1,9 @@
-﻿using CSPOS.DAL;
-using CSPOS.Domain.DTO;
+﻿using CSPOS.Domain.DTO;
 using CSPOS.Domain.Interfaces;
+using CSPOS.Domain.Models;
 using Nelibur.ObjectMapper;
 
-namespace ServiceHost.Utils
+namespace InventoryManagement.Utils
 {
     public class TinyObjectMapperHelper : IObjectMapperService
     {
@@ -19,23 +19,27 @@ namespace ServiceHost.Utils
 
         private void ConfigureMapper()
         {
-            // Db <-> Dto
-            TinyMapper.Bind<catalog, DtoCatalogItem>(config =>
+            // Domain Model <-> Dto
+            TinyMapper.Bind<DtoCatalogItem, DmNewCatalogItem>(config =>
             {
-                config.Ignore(x => x.orderitems);
-                config.Ignore(x => x.RowVersion);
+                config.Ignore(x => x.ConditionID);
             });
 
-            TinyMapper.Bind<orderitem, DtoOrderItem>(config =>
+            TinyMapper.Bind<DtoCatalogItem, DmUsedCatalogItem>(config =>
             {
-                config.Ignore(x => x.order);
-                config.Bind(source => source.catalog, target => target.navCatalogItem);
+                config.Ignore(x => x.Warranty);
             });
 
-            TinyMapper.Bind<order, DtoOrder>(config =>
+            TinyMapper.Bind<DmOrderItem, DtoOrderItem>(config =>
             {
-                config.Ignore(x => x.RowVersion);
-                config.Bind(source => source.orderitems, target => target.navOrderItems);
+                //config.Ignore(x => x.order);
+                //config.Bind(source => source.catalog, target => target.navCatalogItem);
+            });
+
+            TinyMapper.Bind<DmOrder, DtoOrder>(config =>
+            {
+                //config.Ignore(x => x.RowVersion);
+                //config.Bind(source => source.orderitems, target => target.navOrderItems);
             });
         }
 

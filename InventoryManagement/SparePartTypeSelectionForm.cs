@@ -17,16 +17,6 @@ namespace InventoryManagement
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (radioButton1.Checked)
-            {
-                var spf = new BrandNewSparePartForm();
-                spf.Show();
-            }
-            else
-            {
-                var spf = new UsedSparePartForm();
-                spf.Show();
-            }
         }
     }
 }

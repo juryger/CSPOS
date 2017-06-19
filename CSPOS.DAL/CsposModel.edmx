@@ -19,9 +19,10 @@
           <Property Name="OrigCountry" Type="varchar" MaxLength="255" />
           <Property Name="ManufactureDate" Type="datetime" Precision="0" Nullable="false" />
           <Property Name="Warranty" Type="int" />
-          <Property Name="ConditionID" Type="int" Nullable="false" />
+          <Property Name="ConditionID" Type="int" />
           <Property Name="ModifiedDate" Type="datetime" Precision="0" Nullable="false" />
           <Property Name="Deleted" Type="bit" Nullable="false" />
+          <Property Name="ItemType" Type="int" Nullable="false" />
           <Property Name="RowVersion" Type="timestamp" Precision="0" StoreGeneratedPattern="Identity" Nullable="false" />
         </EntityType>
         <EntityType Name="orderitems">
@@ -88,8 +89,8 @@
       <Schema Namespace="CSPOS.DAL.General" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="csposEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="catalogs" EntityType="CSPOS.DAL.General.catalog" />
-          <EntitySet Name="orders" EntityType="CSPOS.DAL.General.order" />
           <EntitySet Name="orderitems" EntityType="CSPOS.DAL.General.orderitem" />
+          <EntitySet Name="orders" EntityType="CSPOS.DAL.General.order" />
           <AssociationSet Name="FK_OrderItems_Catalog" Association="CSPOS.DAL.General.FK_OrderItems_Catalog">
             <End Role="catalog" EntitySet="catalogs" />
             <End Role="orderitem" EntitySet="orderitems" />
@@ -113,23 +114,12 @@
           <Property Name="OrigCountry" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="ManufactureDate" Type="DateTime" Nullable="false" />
           <Property Name="Warranty" Type="Int32" />
-          <Property Name="ConditionID" Type="Int32" Nullable="false" />
+          <Property Name="ConditionID" Type="Int32" />
           <Property Name="ModifiedDate" Type="DateTime" Nullable="false" />
           <Property Name="Deleted" Type="Boolean" Nullable="false" />
+          <Property Name="ItemType" Type="Int32" Nullable="false" />
           <Property Name="RowVersion" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" ConcurrencyMode="Fixed" />
           <NavigationProperty Name="orderitems" Relationship="CSPOS.DAL.General.FK_OrderItems_Catalog" FromRole="catalog" ToRole="orderitem" />
-        </EntityType>
-        <EntityType Name="order">
-          <Key>
-            <PropertyRef Name="OrderID" />
-          </Key>
-          <Property Name="OrderID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="CustomerName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="CreatedDate" Type="DateTime" Nullable="false" />
-          <Property Name="OrderStatusID" Type="Int32" Nullable="false" />
-          <Property Name="Deleted" Type="Boolean" Nullable="false" />
-          <Property Name="RowVersion" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" ConcurrencyMode="Fixed" />
-          <NavigationProperty Name="orderitems" Relationship="CSPOS.DAL.General.FK_OrderItems_Orders" FromRole="order" ToRole="orderitem" />
         </EntityType>
         <EntityType Name="orderitem">
           <Key>
@@ -142,6 +132,18 @@
           <Property Name="Price" Type="Decimal" Nullable="false" />
           <NavigationProperty Name="catalog" Relationship="CSPOS.DAL.General.FK_OrderItems_Catalog" FromRole="orderitem" ToRole="catalog" />
           <NavigationProperty Name="order" Relationship="CSPOS.DAL.General.FK_OrderItems_Orders" FromRole="orderitem" ToRole="order" />
+        </EntityType>
+        <EntityType Name="order">
+          <Key>
+            <PropertyRef Name="OrderID" />
+          </Key>
+          <Property Name="OrderID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CustomerName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" />
+          <Property Name="OrderStatusID" Type="Int32" Nullable="false" />
+          <Property Name="Deleted" Type="Boolean" Nullable="false" />
+          <Property Name="RowVersion" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" ConcurrencyMode="Fixed" />
+          <NavigationProperty Name="orderitems" Relationship="CSPOS.DAL.General.FK_OrderItems_Orders" FromRole="order" ToRole="orderitem" />
         </EntityType>
         <Association Name="FK_OrderItems_Catalog">
           <End Type="CSPOS.DAL.General.catalog" Role="catalog" Multiplicity="1" />
@@ -177,6 +179,7 @@
             <EntityTypeMapping TypeName="CSPOS.DAL.General.catalog">
               <MappingFragment StoreEntitySet="catalog">
                 <ScalarProperty Name="RowVersion" ColumnName="RowVersion" />
+                <ScalarProperty Name="ItemType" ColumnName="ItemType" />
                 <ScalarProperty Name="Deleted" ColumnName="Deleted" />
                 <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
                 <ScalarProperty Name="ConditionID" ColumnName="ConditionID" />
@@ -193,6 +196,16 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="orderitems">
+            <EntityTypeMapping TypeName="CSPOS.DAL.General.orderitem">
+              <MappingFragment StoreEntitySet="orderitems">
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="CatalogItemID" ColumnName="CatalogItemID" />
+                <ScalarProperty Name="OrderID" ColumnName="OrderID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="orders">
             <EntityTypeMapping TypeName="CSPOS.DAL.General.order">
               <MappingFragment StoreEntitySet="orders">
@@ -201,16 +214,6 @@
                 <ScalarProperty Name="OrderStatusID" ColumnName="OrderStatusID" />
                 <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
                 <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
-                <ScalarProperty Name="OrderID" ColumnName="OrderID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="orderitems">
-            <EntityTypeMapping TypeName="CSPOS.DAL.General.orderitem">
-              <MappingFragment StoreEntitySet="orderitems">
-                <ScalarProperty Name="Price" ColumnName="Price" />
-                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
-                <ScalarProperty Name="CatalogItemID" ColumnName="CatalogItemID" />
                 <ScalarProperty Name="OrderID" ColumnName="OrderID" />
               </MappingFragment>
             </EntityTypeMapping>

@@ -40,18 +40,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Delegates.cs" />
     <Compile Include="DTO\DtoOrder.cs" />
     <Compile Include="DTO\DtoOrderItem.cs" />
     <Compile Include="DTO\DtoCatalogItem.cs" />
     <Compile Include="Enums\CatalogCategories.cs" />
     <Compile Include="Enums\CatalogConditions.cs" />
+    <Compile Include="Enums\CatalogItemTypes.cs" />
     <Compile Include="Enums\CatalogMakers.cs" />
     <Compile Include="Enums\EnumExtensions.cs" />
     <Compile Include="Enums\OrderStatues.cs" />
     <Compile Include="Interfaces\IObjectMapperService.cs" />
-    <Compile Include="Models\DmCatalog.cs" />
+    <Compile Include="Models\DmCatalogItem.cs" />
+    <Compile Include="Models\DmNewCatalogItem.cs" />
     <Compile Include="Models\DmOrder.cs" />
     <Compile Include="Models\DmOrderItem.cs" />
+    <Compile Include="Models\DmUsedCatalogItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />
