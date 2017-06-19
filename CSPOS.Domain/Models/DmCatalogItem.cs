@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Windows.Forms;
 
 namespace CSPOS.Domain.Models
 {
@@ -30,11 +32,20 @@ namespace CSPOS.Domain.Models
         public int ItemType { get { return _itemType; } protected set { _itemType = value; } }
         public bool Deleted { get { return _deleted; } set { _deleted = value; } }
 
-        public abstract void EditDetails();
+        public string Summary { get { return this.ToString(); } }
+
+        public abstract DialogResult EditDetails(
+            IList<DmCatalogCategory> pCategories,
+            IList<DmCatalogMaker> pMakers,
+            IList<DmCatalogCondition> pConditions);
+
+        public abstract DmCatalogItem MakeCopy();
+
+        public abstract void SyncState(DmCatalogItem state);
 
         public override string ToString()
         {
-            return _name + "\t" + _price.ToString("C") + "\t" + _modifiedDate.ToShortDateString();
+            return string.Format("{0}, {1}, {2}", _name, _price.ToString("C"), _modifiedDate.ToShortDateString());
         }
     }
 }

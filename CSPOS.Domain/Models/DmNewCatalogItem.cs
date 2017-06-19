@@ -1,6 +1,8 @@
 ﻿using CSPOS.Domain.Delegates;
 using CSPOS.Domain.Enums;
 using System;
+using System.Collections.Generic;
+using System.Windows.Forms;
 
 namespace CSPOS.Domain.Models
 {
@@ -16,9 +18,14 @@ namespace CSPOS.Domain.Models
             ItemType = Enums.CatalogItemTypes.NewCatalogItem.ConvertToInt();
         }
 
-        public override void EditDetails()
+        public override DialogResult EditDetails(
+            IList<DmCatalogCategory> pCategories,
+            IList<DmCatalogMaker> pMakers,
+            IList<DmCatalogCondition> pConditions)
         {
-            LoadCatalogItemFormDelegate?.Invoke(this);
+            return LoadCatalogItemFormDelegate == null ?
+                DialogResult.Cancel :
+                LoadCatalogItemFormDelegate.Invoke(this, pCategories, pMakers, pConditions);
         }
 
         public static DmCatalogItem InitializeNew()
@@ -31,6 +38,43 @@ namespace CSPOS.Domain.Models
                 _warranty = 0,
                 _deleted = false,
             };
+        }
+
+        public override DmCatalogItem MakeCopy()
+        {
+            return new DmNewCatalogItem()
+            {
+                _catalogItemID = this.CatalogItemID,
+                _categoryID = this.CategoryID,
+                _makerID = this.MakerID,
+                _name = this.Name,
+                _description = this.Description,
+                _price = this.Price,
+                _inStockNum = this.InStockNum,
+                _origCountry = this.OrigCountry,
+                _manufactureDate = this.ManufactureDate,
+                _modifiedDate = this.ModifiedDate,
+                _itemType = this.ItemType,
+                _deleted = this.Deleted,
+                _warranty = this.Warranty,
+            };
+        }
+
+        public override void SyncState(DmCatalogItem state)
+        {
+            this.CatalogItemID = state.CatalogItemID;
+            this.CategoryID = state.CategoryID;
+            this.MakerID = state.MakerID;
+            this.Name = state.Name;
+            this.Description = state.Description;
+            this.Price = state.Price;
+            this.InStockNum = state.InStockNum;
+            this.OrigCountry = state.OrigCountry;
+            this.ManufactureDate = state.ManufactureDate;
+            this.ModifiedDate = state.ModifiedDate;
+            this.ItemType = state.ItemType;
+            this.Deleted = state.Deleted;
+            this.Warranty = (state as DmNewCatalogItem).Warranty;
         }
     }
 }

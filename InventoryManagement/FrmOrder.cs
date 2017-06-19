@@ -3,9 +3,9 @@ using System.Windows.Forms;
 
 namespace InventoryManagement
 {
-    public partial class OrderForm : Form
+    public partial class FrmOrder : Form
     {
-        public OrderForm()
+        public FrmOrder()
         {
             InitializeComponent();
         }
@@ -17,7 +17,7 @@ namespace InventoryManagement
 
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
-            var oif = new OrderItemForm();
+            var oif = new FrmOrderItem();
             oif.Show();
         }
     }

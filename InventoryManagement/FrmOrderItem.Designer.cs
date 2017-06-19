@@ -1,6 +1,6 @@
 ﻿namespace InventoryManagement
 {
-    partial class OrderItemForm
+    partial class FrmOrderItem
     {
         /// <summary>
         /// Required designer variable.

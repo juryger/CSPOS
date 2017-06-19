@@ -25,6 +25,38 @@
           <Property Name="ItemType" Type="int" Nullable="false" />
           <Property Name="RowVersion" Type="timestamp" Precision="0" StoreGeneratedPattern="Identity" Nullable="false" />
         </EntityType>
+        <EntityType Name="catalogcategories">
+          <Key>
+            <PropertyRef Name="CatalogCategoryID" />
+          </Key>
+          <Property Name="CatalogCategoryID" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="catalogconditions">
+          <Key>
+            <PropertyRef Name="CatalogConditionID" />
+          </Key>
+          <Property Name="CatalogConditionID" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="catalogmakers">
+          <Key>
+            <PropertyRef Name="CatalogMakerID" />
+          </Key>
+          <Property Name="CatalogMakerID" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="catalogtypes">
+          <Key>
+            <PropertyRef Name="CatalogTypeID" />
+          </Key>
+          <Property Name="CatalogTypeID" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="255" />
+        </EntityType>
         <EntityType Name="orderitems">
           <Key>
             <PropertyRef Name="OrderID" />
@@ -46,6 +78,62 @@
           <Property Name="Deleted" Type="bit" Nullable="false" />
           <Property Name="RowVersion" Type="timestamp" Precision="0" StoreGeneratedPattern="Identity" Nullable="false" />
         </EntityType>
+        <EntityType Name="orderstatuses">
+          <Key>
+            <PropertyRef Name="OrderStatusID" />
+          </Key>
+          <Property Name="OrderStatusID" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <Association Name="FK_Catalog_CatalogCategories">
+          <End Role="catalogcategories" Type="Self.catalogcategories" Multiplicity="1" />
+          <End Role="catalog" Type="Self.catalog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="catalogcategories">
+              <PropertyRef Name="CatalogCategoryID" />
+            </Principal>
+            <Dependent Role="catalog">
+              <PropertyRef Name="CategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Catalog_CatalogConditions">
+          <End Role="catalogconditions" Type="Self.catalogconditions" Multiplicity="0..1" />
+          <End Role="catalog" Type="Self.catalog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="catalogconditions">
+              <PropertyRef Name="CatalogConditionID" />
+            </Principal>
+            <Dependent Role="catalog">
+              <PropertyRef Name="ConditionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Catalog_CatalogMakers">
+          <End Role="catalogmakers" Type="Self.catalogmakers" Multiplicity="1" />
+          <End Role="catalog" Type="Self.catalog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="catalogmakers">
+              <PropertyRef Name="CatalogMakerID" />
+            </Principal>
+            <Dependent Role="catalog">
+              <PropertyRef Name="MakerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Catalog_CatalogTypes">
+          <End Role="catalogtypes" Type="Self.catalogtypes" Multiplicity="1" />
+          <End Role="catalog" Type="Self.catalog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="catalogtypes">
+              <PropertyRef Name="CatalogTypeID" />
+            </Principal>
+            <Dependent Role="catalog">
+              <PropertyRef Name="ItemType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_OrderItems_Catalog">
           <End Role="catalog" Type="Self.catalog" Multiplicity="1" />
           <End Role="orderitems" Type="Self.orderitems" Multiplicity="*" />
@@ -70,10 +158,43 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Orders_OrderStatuses">
+          <End Role="orderstatuses" Type="Self.orderstatuses" Multiplicity="1" />
+          <End Role="orders" Type="Self.orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="orderstatuses">
+              <PropertyRef Name="OrderStatusID" />
+            </Principal>
+            <Dependent Role="orders">
+              <PropertyRef Name="OrderStatusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="CSPOSDALGeneralStoreContainer">
           <EntitySet Name="catalog" EntityType="Self.catalog" Schema="cspos" store:Type="Tables" />
+          <EntitySet Name="catalogcategories" EntityType="Self.catalogcategories" Schema="cspos" store:Type="Tables" />
+          <EntitySet Name="catalogconditions" EntityType="Self.catalogconditions" Schema="cspos" store:Type="Tables" />
+          <EntitySet Name="catalogmakers" EntityType="Self.catalogmakers" Schema="cspos" store:Type="Tables" />
+          <EntitySet Name="catalogtypes" EntityType="Self.catalogtypes" Schema="cspos" store:Type="Tables" />
           <EntitySet Name="orderitems" EntityType="Self.orderitems" Schema="cspos" store:Type="Tables" />
           <EntitySet Name="orders" EntityType="Self.orders" Schema="cspos" store:Type="Tables" />
+          <EntitySet Name="orderstatuses" EntityType="Self.orderstatuses" Schema="cspos" store:Type="Tables" />
+          <AssociationSet Name="FK_Catalog_CatalogCategories" Association="Self.FK_Catalog_CatalogCategories">
+            <End Role="catalogcategories" EntitySet="catalogcategories" />
+            <End Role="catalog" EntitySet="catalog" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Catalog_CatalogConditions" Association="Self.FK_Catalog_CatalogConditions">
+            <End Role="catalogconditions" EntitySet="catalogconditions" />
+            <End Role="catalog" EntitySet="catalog" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Catalog_CatalogMakers" Association="Self.FK_Catalog_CatalogMakers">
+            <End Role="catalogmakers" EntitySet="catalogmakers" />
+            <End Role="catalog" EntitySet="catalog" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Catalog_CatalogTypes" Association="Self.FK_Catalog_CatalogTypes">
+            <End Role="catalogtypes" EntitySet="catalogtypes" />
+            <End Role="catalog" EntitySet="catalog" />
+          </AssociationSet>
           <AssociationSet Name="FK_OrderItems_Catalog" Association="Self.FK_OrderItems_Catalog">
             <End Role="catalog" EntitySet="catalog" />
             <End Role="orderitems" EntitySet="orderitems" />
@@ -81,6 +202,10 @@
           <AssociationSet Name="FK_OrderItems_Orders" Association="Self.FK_OrderItems_Orders">
             <End Role="orders" EntitySet="orders" />
             <End Role="orderitems" EntitySet="orderitems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Orders_OrderStatuses" Association="Self.FK_Orders_OrderStatuses">
+            <End Role="orderstatuses" EntitySet="orderstatuses" />
+            <End Role="orders" EntitySet="orders" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -98,6 +223,31 @@
           <AssociationSet Name="FK_OrderItems_Orders" Association="CSPOS.DAL.General.FK_OrderItems_Orders">
             <End Role="order" EntitySet="orders" />
             <End Role="orderitem" EntitySet="orderitems" />
+          </AssociationSet>
+          <EntitySet Name="catalogcategories" EntityType="CSPOS.DAL.General.catalogcategory" />
+          <EntitySet Name="catalogconditions" EntityType="CSPOS.DAL.General.catalogcondition" />
+          <EntitySet Name="catalogmakers" EntityType="CSPOS.DAL.General.catalogmaker" />
+          <EntitySet Name="catalogtypes" EntityType="CSPOS.DAL.General.catalogtype" />
+          <EntitySet Name="orderstatuses" EntityType="CSPOS.DAL.General.orderstatus" />
+          <AssociationSet Name="FK_Catalog_CatalogCategories" Association="CSPOS.DAL.General.FK_Catalog_CatalogCategories">
+            <End Role="catalogcategory" EntitySet="catalogcategories" />
+            <End Role="catalog" EntitySet="catalogs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Catalog_CatalogConditions" Association="CSPOS.DAL.General.FK_Catalog_CatalogConditions">
+            <End Role="catalogcondition" EntitySet="catalogconditions" />
+            <End Role="catalog" EntitySet="catalogs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Catalog_CatalogMakers" Association="CSPOS.DAL.General.FK_Catalog_CatalogMakers">
+            <End Role="catalogmaker" EntitySet="catalogmakers" />
+            <End Role="catalog" EntitySet="catalogs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Catalog_CatalogTypes" Association="CSPOS.DAL.General.FK_Catalog_CatalogTypes">
+            <End Role="catalogtype" EntitySet="catalogtypes" />
+            <End Role="catalog" EntitySet="catalogs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Orders_OrderStatuses" Association="CSPOS.DAL.General.FK_Orders_OrderStatuses">
+            <End Role="orderstatus" EntitySet="orderstatuses" />
+            <End Role="order" EntitySet="orders" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="catalog">
@@ -120,6 +270,10 @@
           <Property Name="ItemType" Type="Int32" Nullable="false" />
           <Property Name="RowVersion" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" ConcurrencyMode="Fixed" />
           <NavigationProperty Name="orderitems" Relationship="CSPOS.DAL.General.FK_OrderItems_Catalog" FromRole="catalog" ToRole="orderitem" />
+          <NavigationProperty Name="catalogcategory" Relationship="CSPOS.DAL.General.FK_Catalog_CatalogCategories" FromRole="catalog" ToRole="catalogcategory" />
+          <NavigationProperty Name="catalogcondition" Relationship="CSPOS.DAL.General.FK_Catalog_CatalogConditions" FromRole="catalog" ToRole="catalogcondition" />
+          <NavigationProperty Name="catalogmaker" Relationship="CSPOS.DAL.General.FK_Catalog_CatalogMakers" FromRole="catalog" ToRole="catalogmaker" />
+          <NavigationProperty Name="catalogtype" Relationship="CSPOS.DAL.General.FK_Catalog_CatalogTypes" FromRole="catalog" ToRole="catalogtype" />
         </EntityType>
         <EntityType Name="orderitem">
           <Key>
@@ -144,6 +298,7 @@
           <Property Name="Deleted" Type="Boolean" Nullable="false" />
           <Property Name="RowVersion" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" ConcurrencyMode="Fixed" />
           <NavigationProperty Name="orderitems" Relationship="CSPOS.DAL.General.FK_OrderItems_Orders" FromRole="order" ToRole="orderitem" />
+          <NavigationProperty Name="orderstatus" Relationship="CSPOS.DAL.General.FK_Orders_OrderStatuses" FromRole="order" ToRole="orderstatus" />
         </EntityType>
         <Association Name="FK_OrderItems_Catalog">
           <End Type="CSPOS.DAL.General.catalog" Role="catalog" Multiplicity="1" />
@@ -166,6 +321,111 @@
             </Principal>
             <Dependent Role="orderitem">
               <PropertyRef Name="OrderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="catalogcategory">
+          <Key>
+            <PropertyRef Name="CatalogCategoryID" />
+          </Key>
+          <Property Name="CatalogCategoryID" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="catalogs" Relationship="CSPOS.DAL.General.FK_Catalog_CatalogCategories" FromRole="catalogcategory" ToRole="catalog" />
+        </EntityType>
+        <EntityType Name="catalogcondition">
+          <Key>
+            <PropertyRef Name="CatalogConditionID" />
+          </Key>
+          <Property Name="CatalogConditionID" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="catalogs" Relationship="CSPOS.DAL.General.FK_Catalog_CatalogConditions" FromRole="catalogcondition" ToRole="catalog" />
+        </EntityType>
+        <EntityType Name="catalogmaker">
+          <Key>
+            <PropertyRef Name="CatalogMakerID" />
+          </Key>
+          <Property Name="CatalogMakerID" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="catalogs" Relationship="CSPOS.DAL.General.FK_Catalog_CatalogMakers" FromRole="catalogmaker" ToRole="catalog" />
+        </EntityType>
+        <EntityType Name="catalogtype">
+          <Key>
+            <PropertyRef Name="CatalogTypeID" />
+          </Key>
+          <Property Name="CatalogTypeID" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="catalogs" Relationship="CSPOS.DAL.General.FK_Catalog_CatalogTypes" FromRole="catalogtype" ToRole="catalog" />
+        </EntityType>
+        <EntityType Name="orderstatus">
+          <Key>
+            <PropertyRef Name="OrderStatusID" />
+          </Key>
+          <Property Name="OrderStatusID" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="orders" Relationship="CSPOS.DAL.General.FK_Orders_OrderStatuses" FromRole="orderstatus" ToRole="order" />
+        </EntityType>
+        <Association Name="FK_Catalog_CatalogCategories">
+          <End Type="CSPOS.DAL.General.catalogcategory" Role="catalogcategory" Multiplicity="1" />
+          <End Type="CSPOS.DAL.General.catalog" Role="catalog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="catalogcategory">
+              <PropertyRef Name="CatalogCategoryID" />
+            </Principal>
+            <Dependent Role="catalog">
+              <PropertyRef Name="CategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Catalog_CatalogConditions">
+          <End Type="CSPOS.DAL.General.catalogcondition" Role="catalogcondition" Multiplicity="0..1" />
+          <End Type="CSPOS.DAL.General.catalog" Role="catalog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="catalogcondition">
+              <PropertyRef Name="CatalogConditionID" />
+            </Principal>
+            <Dependent Role="catalog">
+              <PropertyRef Name="ConditionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Catalog_CatalogMakers">
+          <End Type="CSPOS.DAL.General.catalogmaker" Role="catalogmaker" Multiplicity="1" />
+          <End Type="CSPOS.DAL.General.catalog" Role="catalog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="catalogmaker">
+              <PropertyRef Name="CatalogMakerID" />
+            </Principal>
+            <Dependent Role="catalog">
+              <PropertyRef Name="MakerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Catalog_CatalogTypes">
+          <End Type="CSPOS.DAL.General.catalogtype" Role="catalogtype" Multiplicity="1" />
+          <End Type="CSPOS.DAL.General.catalog" Role="catalog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="catalogtype">
+              <PropertyRef Name="CatalogTypeID" />
+            </Principal>
+            <Dependent Role="catalog">
+              <PropertyRef Name="ItemType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Orders_OrderStatuses">
+          <End Type="CSPOS.DAL.General.orderstatus" Role="orderstatus" Multiplicity="1" />
+          <End Type="CSPOS.DAL.General.order" Role="order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="orderstatus">
+              <PropertyRef Name="OrderStatusID" />
+            </Principal>
+            <Dependent Role="order">
+              <PropertyRef Name="OrderStatusID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -215,6 +475,51 @@
                 <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
                 <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
                 <ScalarProperty Name="OrderID" ColumnName="OrderID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="catalogcategories">
+            <EntityTypeMapping TypeName="CSPOS.DAL.General.catalogcategory">
+              <MappingFragment StoreEntitySet="catalogcategories">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="CatalogCategoryID" ColumnName="CatalogCategoryID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="catalogconditions">
+            <EntityTypeMapping TypeName="CSPOS.DAL.General.catalogcondition">
+              <MappingFragment StoreEntitySet="catalogconditions">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="CatalogConditionID" ColumnName="CatalogConditionID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="catalogmakers">
+            <EntityTypeMapping TypeName="CSPOS.DAL.General.catalogmaker">
+              <MappingFragment StoreEntitySet="catalogmakers">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="CatalogMakerID" ColumnName="CatalogMakerID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="catalogtypes">
+            <EntityTypeMapping TypeName="CSPOS.DAL.General.catalogtype">
+              <MappingFragment StoreEntitySet="catalogtypes">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="CatalogTypeID" ColumnName="CatalogTypeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="orderstatuses">
+            <EntityTypeMapping TypeName="CSPOS.DAL.General.orderstatus">
+              <MappingFragment StoreEntitySet="orderstatuses">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="OrderStatusID" ColumnName="OrderStatusID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

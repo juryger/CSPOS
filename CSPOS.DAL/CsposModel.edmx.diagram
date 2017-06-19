@@ -10,6 +10,16 @@
         <EntityTypeShape EntityType="CSPOS.DAL.General.order" Width="1.5" PointX="0.75" PointY="1" />
         <AssociationConnector Association="CSPOS.DAL.General.FK_OrderItems_Catalog" />
         <AssociationConnector Association="CSPOS.DAL.General.FK_OrderItems_Orders" />
+        <EntityTypeShape EntityType="CSPOS.DAL.General.catalogcategory" Width="1.75" PointX="7.5" PointY="5" />
+        <EntityTypeShape EntityType="CSPOS.DAL.General.catalogcondition" Width="1.875" PointX="3.125" PointY="7.125" />
+        <EntityTypeShape EntityType="CSPOS.DAL.General.catalogmaker" Width="1.5" PointX="6.125" PointY="7.125" />
+        <EntityTypeShape EntityType="CSPOS.DAL.General.catalogtype" Width="1.5" PointX="2.75" PointY="5" />
+        <EntityTypeShape EntityType="CSPOS.DAL.General.orderstatus" Width="1.5" PointX="0.75" PointY="5" />
+        <AssociationConnector Association="CSPOS.DAL.General.FK_Catalog_CatalogCategories" />
+        <AssociationConnector Association="CSPOS.DAL.General.FK_Catalog_CatalogConditions" />
+        <AssociationConnector Association="CSPOS.DAL.General.FK_Catalog_CatalogMakers" />
+        <AssociationConnector Association="CSPOS.DAL.General.FK_Catalog_CatalogTypes" />
+        <AssociationConnector Association="CSPOS.DAL.General.FK_Orders_OrderStatuses" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

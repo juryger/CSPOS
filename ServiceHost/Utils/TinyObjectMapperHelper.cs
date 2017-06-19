@@ -37,6 +37,31 @@ namespace ServiceHost.Utils
                 config.Ignore(x => x.RowVersion);
                 config.Bind(source => source.orderitems, target => target.navOrderItems);
             });
+
+            TinyMapper.Bind<catalogcategory, DtoCatalogCategory>(config =>
+            {
+                config.Ignore(x => x.catalogs);
+            });
+
+            TinyMapper.Bind<catalogcondition, DtoCatalogCondition>(config =>
+            {
+                config.Ignore(x => x.catalogs);
+            });
+
+            TinyMapper.Bind<catalogmaker, DtoCatalogMaker>(config =>
+            {
+                config.Ignore(x => x.catalogs);
+            });
+
+            TinyMapper.Bind<catalogtype, DtoCatalogType>(config =>
+            {
+                config.Ignore(x => x.catalogs);
+            });
+
+            TinyMapper.Bind<orderstatus, DtoOrderStatus>(config =>
+            {
+                config.Ignore(x => x.orders);
+            });
         }
 
         public TTarget Map<TTarget>(object source)

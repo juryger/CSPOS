@@ -33,5 +33,10 @@ namespace CSPOS.DAL
         public virtual DbSet<catalog> catalogs { get; set; }
         public virtual DbSet<orderitem> orderitems { get; set; }
         public virtual DbSet<order> orders { get; set; }
+        public virtual DbSet<catalogcategory> catalogcategories { get; set; }
+        public virtual DbSet<catalogcondition> catalogconditions { get; set; }
+        public virtual DbSet<catalogmaker> catalogmakers { get; set; }
+        public virtual DbSet<catalogtype> catalogtypes { get; set; }
+        public virtual DbSet<orderstatus> orderstatuses { get; set; }
     }
 }

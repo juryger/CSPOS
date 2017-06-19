@@ -17,10 +17,10 @@ namespace InventoryManagement
             Application.SetCompatibleTextRenderingDefault(false);
 
             // Set up delegate responsible for showing forms
-            DmNewCatalogItem.LoadCatalogItemFormDelegate = new LoadCatalogItemForm(NewCatalogItemForm.Instance.Run);
-            DmUsedCatalogItem.LoadCatalogItemFormDelegate = new LoadCatalogItemForm(UsedCatalogItemForm.Instance.Run);
+            DmNewCatalogItem.LoadCatalogItemFormDelegate = new LoadCatalogItemForm(FrmNewCatalogItem.Instance.Run);
+            DmUsedCatalogItem.LoadCatalogItemFormDelegate = new LoadCatalogItemForm(FrmUsedCatalogItem.Instance.Run);
 
-            Application.Run(new ManagementForm());
+            Application.Run(new FrmManagement());
         }
     }
 }

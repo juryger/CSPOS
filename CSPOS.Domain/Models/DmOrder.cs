@@ -12,6 +12,13 @@ namespace CSPOS.Domain.Models
         public OrderStatues OrderStatusID { get; set; }
         public bool Deleted { get; set; }
 
+        public object Summary { get { return this.ToString(); } }
+
         public IEnumerable<DmOrderItem> navOrderItems { get; set; }
+
+        public override string ToString()
+        {
+            return string.Format("#{0}, {1}, {2}", OrderID, CustomerName, CreatedDate.ToShortDateString());
+        }
     }
 }

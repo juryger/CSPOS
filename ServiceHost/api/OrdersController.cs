@@ -54,6 +54,21 @@ namespace ServiceHost
             }
         }
 
+        [HttpGet]
+        [Route("statuses")]
+        public IHttpActionResult GetOrderStatuses()
+        {
+            using (var dbContext = new csposEntities())
+            {
+                var items = dbContext.orderstatuses
+                    .Take(1000)
+                    .ToList()
+                    .Select(x => objMapper.Map<DtoOrderStatus>(x));
+
+                return Json(items ?? new List<DtoOrderStatus>());
+            }
+        }
+
         [HttpPut]
         [Route("")]
         public IHttpActionResult CreateOrder([FromBody] DtoOrder item)

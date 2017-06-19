@@ -38,6 +38,66 @@ namespace ServiceHost.api
         }
 
         [HttpGet]
+        [Route("categories")]
+        public IHttpActionResult GetCatalogCategories()
+        {
+            using (var dbContext = new csposEntities())
+            {
+                var items = dbContext.catalogcategories
+                    .Take(1000)
+                    .ToList()
+                    .Select(x => objMapper.Map<DtoCatalogCategory>(x));
+
+                return Json(items ?? new List<DtoCatalogCategory>());
+            }
+        }
+
+        [HttpGet]
+        [Route("makers")]
+        public IHttpActionResult GetCatalogMaker()
+        {
+            using (var dbContext = new csposEntities())
+            {
+                var items = dbContext.catalogmakers
+                    .Take(1000)
+                    .ToList()
+                    .Select(x => objMapper.Map<DtoCatalogMaker>(x));
+
+                return Json(items ?? new List<DtoCatalogMaker>());
+            }
+        }
+
+        [HttpGet]
+        [Route("conditions")]
+        public IHttpActionResult GetCatalogConditions()
+        {
+            using (var dbContext = new csposEntities())
+            {
+                var items = dbContext.catalogconditions
+                    .Take(1000)
+                    .ToList()
+                    .Select(x => objMapper.Map<DtoCatalogCondition>(x));
+
+                return Json(items ?? new List<DtoCatalogCondition>());
+            }
+        }
+
+        [HttpGet]
+        [Route("types")]
+        public IHttpActionResult GetCatalogTypes()
+        {
+            using (var dbContext = new csposEntities())
+            {
+                var items = dbContext.catalogtypes
+                    .Take(1000)
+                    .ToList()
+                    .Select(x => objMapper.Map<DtoCatalogType>(x));
+
+                return Json(items ?? new List<DtoCatalogType>());
+            }
+        }
+
+        [HttpGet]
         [Route("{itemId}")]
         public IHttpActionResult GetCatalogItemById([FromUri] int itemId)
         {

@@ -32,6 +32,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -41,9 +42,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Delegates.cs" />
+    <Compile Include="DTO\DtoCatalogCategory.cs" />
+    <Compile Include="DTO\DtoCatalogType.cs" />
+    <Compile Include="DTO\DtoCatalogCondition.cs" />
+    <Compile Include="DTO\DtoCatalogMaker.cs" />
     <Compile Include="DTO\DtoOrder.cs" />
     <Compile Include="DTO\DtoOrderItem.cs" />
     <Compile Include="DTO\DtoCatalogItem.cs" />
+    <Compile Include="DTO\DtoOrderStatus.cs" />
     <Compile Include="Enums\CatalogCategories.cs" />
     <Compile Include="Enums\CatalogConditions.cs" />
     <Compile Include="Enums\CatalogItemTypes.cs" />
@@ -51,10 +57,15 @@
     <Compile Include="Enums\EnumExtensions.cs" />
     <Compile Include="Enums\OrderStatues.cs" />
     <Compile Include="Interfaces\IObjectMapperService.cs" />
+    <Compile Include="Models\DmCatalogCategory.cs" />
+    <Compile Include="Models\DmCatalogCondition.cs" />
     <Compile Include="Models\DmCatalogItem.cs" />
+    <Compile Include="Models\DmCatalogMaker.cs" />
+    <Compile Include="Models\DmCatalogType.cs" />
     <Compile Include="Models\DmNewCatalogItem.cs" />
     <Compile Include="Models\DmOrder.cs" />
     <Compile Include="Models\DmOrderItem.cs" />
+    <Compile Include="Models\DmOrderStatus.cs" />
     <Compile Include="Models\DmUsedCatalogItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

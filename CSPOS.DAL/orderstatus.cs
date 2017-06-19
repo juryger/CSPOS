@@ -12,23 +12,19 @@ namespace CSPOS.DAL
     using System;
     using System.Collections.Generic;
     
-    public partial class order
+    public partial class orderstatus
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public order()
+        public orderstatus()
         {
-            this.orderitems = new HashSet<orderitem>();
+            this.orders = new HashSet<order>();
         }
     
-        public int OrderID { get; set; }
-        public string CustomerName { get; set; }
-        public System.DateTime CreatedDate { get; set; }
         public int OrderStatusID { get; set; }
-        public bool Deleted { get; set; }
-        public System.DateTime RowVersion { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<orderitem> orderitems { get; set; }
-        public virtual orderstatus orderstatus { get; set; }
+        public virtual ICollection<order> orders { get; set; }
     }
 }

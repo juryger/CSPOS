@@ -119,92 +119,98 @@
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="lbName.Location" type="System.Drawing.Point, System.Drawing">
-    <value>29, 48</value>
+    <value>29, 57</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="lbName.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
   </data>
   <data name="tbxName.Location" type="System.Drawing.Point, System.Drawing">
-    <value>140, 45</value>
+    <value>140, 54</value>
   </data>
   <data name="tbxName.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
   </data>
   <data name="tbxDescription.Location" type="System.Drawing.Point, System.Drawing">
-    <value>140, 75</value>
+    <value>140, 84</value>
   </data>
   <data name="tbxDescription.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
   </data>
   <data name="lbDescription.Location" type="System.Drawing.Point, System.Drawing">
-    <value>29, 78</value>
+    <value>29, 87</value>
   </data>
   <data name="lbDescription.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
   </data>
   <data name="lbCategory.Location" type="System.Drawing.Point, System.Drawing">
-    <value>29, 146</value>
+    <value>29, 155</value>
   </data>
   <data name="lbCategory.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
   </data>
   <data name="cbxCategory.Location" type="System.Drawing.Point, System.Drawing">
-    <value>140, 143</value>
+    <value>140, 152</value>
   </data>
   <data name="cbxCategory.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
   </data>
   <data name="lbMaker.Location" type="System.Drawing.Point, System.Drawing">
-    <value>29, 178</value>
+    <value>29, 187</value>
   </data>
   <data name="lbMaker.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>
   </data>
   <data name="cbxMaker.Location" type="System.Drawing.Point, System.Drawing">
-    <value>140, 175</value>
+    <value>140, 184</value>
   </data>
   <data name="cbxMaker.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
   </data>
   <data name="lbPrice.Location" type="System.Drawing.Point, System.Drawing">
-    <value>29, 209</value>
+    <value>29, 218</value>
   </data>
   <data name="lbPrice.TabIndex" type="System.Int32, mscorlib">
     <value>10</value>
   </data>
   <data name="lbInStock.Location" type="System.Drawing.Point, System.Drawing">
-    <value>29, 238</value>
+    <value>29, 247</value>
   </data>
   <data name="lbInStock.TabIndex" type="System.Int32, mscorlib">
     <value>12</value>
   </data>
   <data name="lbManufactureDate.Location" type="System.Drawing.Point, System.Drawing">
-    <value>29, 274</value>
+    <value>29, 283</value>
   </data>
   <data name="lbManufactureDate.TabIndex" type="System.Int32, mscorlib">
     <value>14</value>
   </data>
   <data name="dtpManufactureDate.Location" type="System.Drawing.Point, System.Drawing">
-    <value>140, 268</value>
+    <value>140, 277</value>
   </data>
   <data name="dtpManufactureDate.TabIndex" type="System.Int32, mscorlib">
     <value>15</value>
   </data>
+  <data name="btnOk.Location" type="System.Drawing.Point, System.Drawing">
+    <value>80, 355</value>
+  </data>
   <data name="btnOk.TabIndex" type="System.Int32, mscorlib">
     <value>16</value>
+  </data>
+  <data name="btnCancel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>204, 355</value>
   </data>
   <data name="btnCancel.TabIndex" type="System.Int32, mscorlib">
     <value>17</value>
   </data>
   <data name="nudPrice.Location" type="System.Drawing.Point, System.Drawing">
-    <value>140, 207</value>
+    <value>140, 216</value>
   </data>
   <data name="nudPrice.TabIndex" type="System.Int32, mscorlib">
     <value>11</value>
   </data>
   <data name="nudInStock.Location" type="System.Drawing.Point, System.Drawing">
-    <value>140, 236</value>
+    <value>140, 245</value>
   </data>
   <data name="nudInStock.TabIndex" type="System.Int32, mscorlib">
     <value>13</value>
@@ -217,7 +223,7 @@
     <value>NoControl</value>
   </data>
   <data name="lbCatalogItemId.Location" type="System.Drawing.Point, System.Drawing">
-    <value>29, 19</value>
+    <value>29, 28</value>
   </data>
   <data name="lbCatalogItemId.Size" type="System.Drawing.Size, System.Drawing">
     <value>14, 13</value>
@@ -229,12 +235,15 @@
     <value>#</value>
   </data>
   <data name="tbxCatalogItemId.Location" type="System.Drawing.Point, System.Drawing">
-    <value>140, 12</value>
+    <value>140, 21</value>
   </data>
   <data name="tbxCatalogItemId.Size" type="System.Drawing.Size, System.Drawing">
     <value>202, 20</value>
   </data>
   <data name="tbxCatalogItemId.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
+  </data>
+  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
+    <value>406, 415</value>
   </data>
 </root>

@@ -24,23 +24,23 @@ namespace InventoryManagement.Utils
             {
                 config.Ignore(x => x.ConditionID);
             });
+            TinyMapper.Bind<DmNewCatalogItem, DtoCatalogItem>(config =>
+            {
+                config.Ignore(x => x.Summary);
+            });
 
             TinyMapper.Bind<DtoCatalogItem, DmUsedCatalogItem>(config =>
             {
                 config.Ignore(x => x.Warranty);
             });
-
-            TinyMapper.Bind<DmOrderItem, DtoOrderItem>(config =>
+            TinyMapper.Bind<DmUsedCatalogItem, DtoCatalogItem>(config =>
             {
-                //config.Ignore(x => x.order);
-                //config.Bind(source => source.catalog, target => target.navCatalogItem);
+                config.Ignore(x => x.Summary);
             });
 
-            TinyMapper.Bind<DmOrder, DtoOrder>(config =>
-            {
-                //config.Ignore(x => x.RowVersion);
-                //config.Bind(source => source.orderitems, target => target.navOrderItems);
-            });
+            TinyMapper.Bind<DmOrderItem, DtoOrderItem>();
+
+            TinyMapper.Bind<DmOrder, DtoOrder>();
         }
 
         public TTarget Map<TTarget>(object source)

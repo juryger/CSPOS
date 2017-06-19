@@ -1,6 +1,6 @@
 ﻿namespace InventoryManagement
 {
-    partial class NewCatalogItemForm
+    partial class FrmNewCatalogItem
     {
         /// <summary>
         /// Required designer variable.
@@ -36,7 +36,7 @@
             // lbWarranty
             // 
             this.lbWarranty.AutoSize = true;
-            this.lbWarranty.Location = new System.Drawing.Point(29, 300);
+            this.lbWarranty.Location = new System.Drawing.Point(29, 314);
             this.lbWarranty.Name = "lbWarranty";
             this.lbWarranty.Size = new System.Drawing.Size(50, 13);
             this.lbWarranty.TabIndex = 14;
@@ -44,19 +44,19 @@
             // 
             // nudWarranty
             // 
-            this.nudWarranty.Location = new System.Drawing.Point(140, 293);
+            this.nudWarranty.Location = new System.Drawing.Point(140, 307);
             this.nudWarranty.Name = "nudWarranty";
             this.nudWarranty.Size = new System.Drawing.Size(200, 20);
             this.nudWarranty.TabIndex = 15;
             // 
-            // NewCatalogItemForm
+            // FrmNewCatalogItem
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(367, 394);
+            this.ClientSize = new System.Drawing.Size(387, 394);
             this.Controls.Add(this.nudWarranty);
             this.Controls.Add(this.lbWarranty);
-            this.Name = "NewCatalogItemForm";
+            this.Name = "FrmNewCatalogItem";
             this.Text = "New catalog item";
             this.Controls.SetChildIndex(this.lbWarranty, 0);
             this.Controls.SetChildIndex(this.nudWarranty, 0);

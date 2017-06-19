@@ -131,9 +131,6 @@
     <value>System.Windows.Forms.DateTimePicker, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="btnCancel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>204, 346</value>
-  </data>
   <data name="cbxMaker.Location" type="System.Drawing.Point, System.Drawing">
     <value>140, 165</value>
   </data>
@@ -398,6 +395,9 @@
   <data name="lbManufactureDate.Text" xml:space="preserve">
     <value>Manufacture date</value>
   </data>
+  <data name="&gt;&gt;lbInStock.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="&gt;&gt;nudPrice.Type" xml:space="preserve">
     <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -614,8 +614,8 @@
   <data name="&gt;&gt;lbInStock.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;lbInStock.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="btnCancel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>204, 346</value>
   </data>
   <data name="&gt;&gt;tbxName.ZOrder" xml:space="preserve">
     <value>16</value>
@@ -629,10 +629,4 @@
   <data name="lbManufactureDate.TabIndex" type="System.Int32, mscorlib">
     <value>12</value>
   </data>
-  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="$this.Language" type="System.Globalization.CultureInfo, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>en-NZ</value>
-  </metadata>
 </root>

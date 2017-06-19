@@ -1,6 +1,6 @@
 ﻿namespace InventoryManagement
 {
-    partial class UsedCatalogItemForm
+    partial class FrmUsedCatalogItem
     {
         /// <summary>
         /// Required designer variable.
@@ -35,28 +35,28 @@
             // lbCondition
             // 
             this.lbCondition.AutoSize = true;
-            this.lbCondition.Location = new System.Drawing.Point(29, 298);
+            this.lbCondition.Location = new System.Drawing.Point(29, 316);
             this.lbCondition.Name = "lbCondition";
             this.lbCondition.Size = new System.Drawing.Size(51, 13);
-            this.lbCondition.TabIndex = 17;
+            this.lbCondition.TabIndex = 16;
             this.lbCondition.Text = "Condition";
             // 
             // cbxCondition
             // 
             this.cbxCondition.FormattingEnabled = true;
-            this.cbxCondition.Location = new System.Drawing.Point(138, 290);
+            this.cbxCondition.Location = new System.Drawing.Point(138, 308);
             this.cbxCondition.Name = "cbxCondition";
             this.cbxCondition.Size = new System.Drawing.Size(202, 21);
-            this.cbxCondition.TabIndex = 16;
+            this.cbxCondition.TabIndex = 17;
             // 
-            // UsedCatalogItemForm
+            // FrmUsedCatalogItem
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(369, 381);
+            this.ClientSize = new System.Drawing.Size(393, 414);
             this.Controls.Add(this.cbxCondition);
             this.Controls.Add(this.lbCondition);
-            this.Name = "UsedCatalogItemForm";
+            this.Name = "FrmUsedCatalogItem";
             this.Text = "Used catalog item";
             this.Controls.SetChildIndex(this.lbCondition, 0);
             this.Controls.SetChildIndex(this.cbxCondition, 0);

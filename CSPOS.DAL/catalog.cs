@@ -38,5 +38,9 @@ namespace CSPOS.DAL
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<orderitem> orderitems { get; set; }
+        public virtual catalogcategory catalogcategory { get; set; }
+        public virtual catalogcondition catalogcondition { get; set; }
+        public virtual catalogmaker catalogmaker { get; set; }
+        public virtual catalogtype catalogtype { get; set; }
     }
 }

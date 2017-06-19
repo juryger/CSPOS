@@ -3,9 +3,9 @@ using System.Windows.Forms;
 
 namespace InventoryManagement
 {
-    public partial class OrderItemForm : Form
+    public partial class FrmOrderItem : Form
     {
-        public OrderItemForm()
+        public FrmOrderItem()
         {
             InitializeComponent();
         }
