@@ -24,6 +24,11 @@ namespace InventoryManagement
         private FrmOrder()
         {
             InitializeComponent();
+
+            lbxOrderItems.DisplayMember = nameof(DmOrderItem.Summary);
+
+            cbxStatus.DisplayMember = nameof(DmOrderStatus.Name);
+            cbxStatus.ValueMember = nameof(DmOrderStatus.OrderStatusID);
         }
 
 
@@ -39,7 +44,8 @@ namespace InventoryManagement
             _dsStatuses = pOrderStatuses;
 
             lbxOrderItems.DataSource = new BindingList<DmOrderItem>(pOrder.navOrderItems.ToList());
-            lbxOrderItems.DisplayMember = nameof(DmOrderItem.Summary);
+
+            cbxStatus.DataSource = new BindingList<DmOrderStatus>(_dsStatuses);
 
             UpdateForm();
 
@@ -51,12 +57,7 @@ namespace InventoryManagement
             tbxOrderId.Text = _order.OrderID.ToString();
             tbxCustomer.Text = _order.CustomerName;
             txbCreatedDate.Text = _order.CreatedDate.ToString();
-
-            cbxStatus.DataSource = null;
-            cbxStatus.DisplayMember = nameof(DmOrderStatus.Name);
-            cbxStatus.ValueMember = nameof(DmOrderStatus.OrderStatusID);
             cbxStatus.SelectedValue = _order.OrderStatusID;
-            cbxStatus.DataSource = _dsStatuses;
         }
 
         protected virtual void PushData()

@@ -1,6 +1,7 @@
 ﻿using CSPOS.Domain.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Windows.Forms;
 
 namespace InventoryManagement
@@ -14,6 +15,12 @@ namespace InventoryManagement
         protected FrmCatalogItem()
         {
             InitializeComponent();
+
+            cbxCategory.DisplayMember = nameof(DmCatalogCategory.Name);
+            cbxCategory.ValueMember = nameof(DmCatalogCategory.CatalogCategoryID);
+
+            cbxMaker.DisplayMember = nameof(DmCatalogMaker.Name);
+            cbxMaker.ValueMember = nameof(DmCatalogMaker.CatalogMakerID);
         }
 
         protected virtual void UpdateForm()
@@ -25,16 +32,11 @@ namespace InventoryManagement
             nudInStock.Value = _catalogItem.InStockNum;
             dtpManufactureDate.Value = _catalogItem.ManufactureDate;
 
-            cbxCategory.DataSource = null;
-            cbxCategory.DisplayMember = nameof(DmCatalogCategory.Name);
-            cbxCategory.ValueMember = nameof(DmCatalogCategory.CatalogCategoryID);
-            cbxCategory.SelectedValue = _catalogItem.CategoryID;
-            cbxCategory.DataSource = _dsCategories;
 
-            cbxMaker.DataSource = null;
-            cbxMaker.DisplayMember = nameof(DmCatalogMaker.Name);
-            cbxMaker.ValueMember = nameof(DmCatalogMaker.CatalogMakerID);
-            cbxMaker.DataSource = _dsMakers;
+            cbxCategory.DataSource = new BindingList<DmCatalogCategory>(_dsCategories);
+            cbxCategory.SelectedValue = _catalogItem.CategoryID;
+
+            cbxMaker.DataSource = new BindingList<DmCatalogMaker>(_dsMakers);
             cbxMaker.SelectedValue = _catalogItem.MakerID;
         }
 

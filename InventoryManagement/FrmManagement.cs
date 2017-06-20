@@ -30,12 +30,24 @@ namespace InventoryManagement
 
         private DmCatalogItem SelectedCatalogItem
         {
-            get { return lbxCatalog.SelectedItem as DmCatalogItem; }
+            get
+            {
+                if (lbxCatalog.SelectedIndex == -1)
+                    return null;
+
+                return lbxCatalog.SelectedItem as DmCatalogItem;
+            }
         }
 
         private DmOrder SelectedOrder
         {
-            get { return lbxOrders.SelectedItem as DmOrder; }
+            get
+            {
+                if (lbxOrders.SelectedIndex == -1)
+                    return null;
+
+                return lbxOrders.SelectedItem as DmOrder;
+            }
         }
 
         private void ManagementForm_Load(object sender, EventArgs e)
