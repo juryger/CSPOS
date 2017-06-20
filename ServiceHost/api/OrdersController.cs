@@ -1,5 +1,6 @@
 ﻿using CSPOS.DAL;
 using CSPOS.Domain.DTO;
+using CSPOS.Domain.Enums;
 using ServiceHost.Utils;
 using System.Collections.Generic;
 using System.Data;
@@ -28,9 +29,16 @@ namespace ServiceHost
             {
                 var items = dbContext.orders
                     .Where(o => o.Deleted == false)
+                    // NOTE: used for calculating overal summ, but not effective (need extra column in DB for each order)
+                    .Include(o => o.orderitems)
                     .Take(1000)
                     .ToList()
-                    .Select(x => objMapper.Map<DtoOrder>(x));
+                    .Select(x =>
+                    {
+                        var tmp = objMapper.Map<DtoOrder>(x);
+                        tmp.navOrderItems = x.orderitems.Select(y => objMapper.Map<DtoOrderItem>(y)).ToList();
+                        return tmp;
+                    });
 
                 return Json(items ?? new List<DtoOrder>());
             }
@@ -112,7 +120,7 @@ namespace ServiceHost
 
                     UpdateOrderInternal(item, update);
 
-                    return Json(new { Count = dbContext.SaveChanges() });
+                    return Json(new { ResponseResult = dbContext.SaveChanges() });
                 }
                 catch (DbUpdateConcurrencyException /*cex*/)
                 {
@@ -127,6 +135,9 @@ namespace ServiceHost
 
         private void UpdateOrderInternal(order item, DtoOrder update)
         {
+            item.OrderStatusID = update.OrderStatusID.ConvertToInt();
+            item.CustomerName = update.CustomerName;
+
             var orderItemsToRemove = new List<orderitem>();
 
             foreach (var oi in item.orderitems)
@@ -167,12 +178,12 @@ namespace ServiceHost
                     var item = dbContext.orders.FirstOrDefault(o => o.OrderID == itemId);
                     if (item == null)
                     {
-                        return Json(new { Count = 0 });
+                        return Json(new { ResponseResult = 0 });
                     }
 
                     item.Deleted = true;
 
-                    return Json(new { Count = dbContext.SaveChanges() });
+                    return Json(new { ResponseResult = dbContext.SaveChanges() });
                 }
                 catch (DbUpdateConcurrencyException /*cex*/)
                 {

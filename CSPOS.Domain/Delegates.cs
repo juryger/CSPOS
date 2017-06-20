@@ -8,4 +8,6 @@ namespace CSPOS.Domain.Delegates
         IList<DmCatalogCategory> pCategories,
         IList<DmCatalogMaker> pMakers,
         IList<DmCatalogCondition> pConditions);
+
+    public delegate DialogResult LoadOrderForm(DmOrder pOrder, IList<DmOrderStatus> pOrderStatuses);
 }

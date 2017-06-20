@@ -202,6 +202,7 @@
             // 
             // cbxType
             // 
+            this.cbxType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbxType.FormattingEnabled = true;
             this.cbxType.Location = new System.Drawing.Point(6, 107);
             this.cbxType.Name = "cbxType";
@@ -228,6 +229,7 @@
             // 
             // cbxMaker
             // 
+            this.cbxMaker.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbxMaker.FormattingEnabled = true;
             this.cbxMaker.Location = new System.Drawing.Point(6, 65);
             this.cbxMaker.Name = "cbxMaker";
@@ -245,6 +247,7 @@
             // 
             // cbxCategory
             // 
+            this.cbxCategory.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbxCategory.FormattingEnabled = true;
             this.cbxCategory.Location = new System.Drawing.Point(6, 25);
             this.cbxCategory.Name = "cbxCategory";
@@ -306,6 +309,7 @@
             // 
             // cbxOrderStatus
             // 
+            this.cbxOrderStatus.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbxOrderStatus.FormattingEnabled = true;
             this.cbxOrderStatus.Location = new System.Drawing.Point(7, 68);
             this.cbxOrderStatus.Name = "cbxOrderStatus";
@@ -329,10 +333,10 @@
             this.btnApplyOrderFilter.TabIndex = 2;
             this.btnApplyOrderFilter.Text = "Apply";
             this.btnApplyOrderFilter.UseVisualStyleBackColor = true;
-            this.btnApplyOrderFilter.Click += new System.EventHandler(this.btnOrderFilter_Click);
             // 
             // cbxOrderCustomer
             // 
+            this.cbxOrderCustomer.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbxOrderCustomer.FormattingEnabled = true;
             this.cbxOrderCustomer.Location = new System.Drawing.Point(6, 25);
             this.cbxOrderCustomer.Name = "cbxOrderCustomer";

@@ -66,6 +66,7 @@
     <Compile Include="Models\DmOrder.cs" />
     <Compile Include="Models\DmOrderItem.cs" />
     <Compile Include="Models\DmOrderStatus.cs" />
+    <Compile Include="Models\DmServiceClientResult.cs" />
     <Compile Include="Models\DmUsedCatalogItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

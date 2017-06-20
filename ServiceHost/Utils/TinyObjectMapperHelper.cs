@@ -19,7 +19,7 @@ namespace ServiceHost.Utils
 
         private void ConfigureMapper()
         {
-            // Db <-> Dto
+            // Db <-> Dto            
             TinyMapper.Bind<catalog, DtoCatalogItem>(config =>
             {
                 config.Ignore(x => x.orderitems);
@@ -31,13 +31,22 @@ namespace ServiceHost.Utils
                 config.Ignore(x => x.order);
                 config.Bind(source => source.catalog, target => target.navCatalogItem);
             });
+            TinyMapper.Bind<DtoOrderItem, orderitem>(config =>
+            {
+                config.Bind(source => source.navCatalogItem, target => target.catalog);
+            });
 
             TinyMapper.Bind<order, DtoOrder>(config =>
             {
                 config.Ignore(x => x.RowVersion);
                 config.Bind(source => source.orderitems, target => target.navOrderItems);
             });
+            TinyMapper.Bind<DtoOrder, order>(config =>
+            {
+                config.Bind(source => source.navOrderItems, target => target.orderitems);
+            });
 
+            // References
             TinyMapper.Bind<catalogcategory, DtoCatalogCategory>(config =>
             {
                 config.Ignore(x => x.catalogs);

@@ -8,5 +8,13 @@
         public decimal Price { get; set; }
 
         public DmCatalogItem navCatalog { get; set; }
+
+        public string Summary
+        {
+            get
+            {
+                return string.Format("catalog item: {0}, num: {1}, price: {2}", CatalogItemID, Quantity, Price);
+            }
+        }
     }
 }

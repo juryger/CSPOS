@@ -75,7 +75,7 @@ namespace InventoryManagement.Utils
             }
         }
 
-        public async static Task<HttpResponseMessage> AddNewCatalogItemAsync(DmCatalogItem item)
+        public async static Task<DmServiceClientResponse> AddNewCatalogItemAsync(DmCatalogItem item)
         {
             using (var httpClient = new HttpClient())
             {
@@ -85,7 +85,18 @@ namespace InventoryManagement.Utils
                     Encoding.UTF8,
                     "application/json");
 
-                return await httpClient.PutAsync(uri, content);
+                var response = await httpClient.PutAsync(uri, content);
+
+                if (response.StatusCode != System.Net.HttpStatusCode.OK)
+                {
+                    return new DmServiceClientResponse()
+                    {
+                        ResponseCode = response.StatusCode,
+                        ResponseMessage = await response.Content.ReadAsStringAsync(),
+                    };
+                }
+
+                return JsonConvert.DeserializeObject<DmServiceClientResponse>(await response.Content.ReadAsStringAsync());
             }
         }
 
@@ -113,7 +124,7 @@ namespace InventoryManagement.Utils
 
         #endregion
 
-        public async static Task<HttpResponseMessage> UpdateCatalogItemAsync(DmCatalogItem item)
+        public async static Task<DmServiceClientResponse> UpdateCatalogItemAsync(DmCatalogItem item)
         {
             using (var httpClient = new HttpClient())
             {
@@ -123,16 +134,87 @@ namespace InventoryManagement.Utils
                     Encoding.UTF8,
                     "application/json");
 
-                return await httpClient.PostAsync(uri, content);
+                var response = await httpClient.PostAsync(uri, content);
+
+                if (response.StatusCode != System.Net.HttpStatusCode.OK)
+                {
+                    return new DmServiceClientResponse()
+                    {
+                        ResponseCode = response.StatusCode,
+                        ResponseMessage = await response.Content.ReadAsStringAsync(),
+                    };
+                }
+
+                return JsonConvert.DeserializeObject<DmServiceClientResponse>(await response.Content.ReadAsStringAsync());
             }
         }
 
-        public async static Task<HttpResponseMessage> DeleteCatalogItemAsync(int itemId)
+        public async static Task<DmServiceClientResponse> DeleteCatalogItemAsync(int itemId)
         {
             using (var httpClient = new HttpClient())
             {
                 var uri = _baseUrl + "/api/catalog/" + itemId.ToString();
-                return await httpClient.DeleteAsync(uri);
+
+                var response = await httpClient.DeleteAsync(uri);
+
+                if (response.StatusCode != System.Net.HttpStatusCode.OK)
+                {
+                    return new DmServiceClientResponse()
+                    {
+                        ResponseCode = response.StatusCode,
+                        ResponseMessage = await response.Content.ReadAsStringAsync(),
+                    };
+                }
+
+                return JsonConvert.DeserializeObject<DmServiceClientResponse>(await response.Content.ReadAsStringAsync());
+
+            }
+        }
+
+        public async static Task<DmServiceClientResponse> UpdateOrderAsync(DmOrder item)
+        {
+            using (var httpClient = new HttpClient())
+            {
+                var uri = _baseUrl + "/api/orders";
+                var content = new StringContent(
+                    JsonConvert.SerializeObject(item),
+                    Encoding.UTF8,
+                    "application/json");
+
+                var response = await httpClient.PostAsync(uri, content);
+
+                if (response.StatusCode != System.Net.HttpStatusCode.OK)
+                {
+                    return new DmServiceClientResponse()
+                    {
+                        ResponseCode = response.StatusCode,
+                        ResponseMessage = await response.Content.ReadAsStringAsync(),
+                    };
+                }
+
+                return JsonConvert.DeserializeObject<DmServiceClientResponse>(await response.Content.ReadAsStringAsync());
+            }
+        }
+
+        public async static Task<DmServiceClientResponse> DeleteOrderAsync(int orderId)
+        {
+            using (var httpClient = new HttpClient())
+            {
+                var uri = _baseUrl + "/api/orders/" + orderId.ToString();
+
+                var response = await httpClient.DeleteAsync(uri);
+
+                if (response.StatusCode != System.Net.HttpStatusCode.OK)
+                {
+                    return new DmServiceClientResponse()
+                    {
+                        ResponseCode = response.StatusCode,
+                        ResponseMessage = await response.Content.ReadAsStringAsync(),
+                    };
+                }
+
+                return JsonConvert.DeserializeObject<DmServiceClientResponse>(await response.Content.ReadAsStringAsync());
+
             }
         }
     }

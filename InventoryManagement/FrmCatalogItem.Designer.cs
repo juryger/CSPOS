@@ -94,6 +94,7 @@
             // 
             // cbxCategory
             // 
+            this.cbxCategory.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbxCategory.FormattingEnabled = true;
             this.cbxCategory.Location = new System.Drawing.Point(140, 152);
             this.cbxCategory.Name = "cbxCategory";
@@ -111,6 +112,7 @@
             // 
             // cbxMaker
             // 
+            this.cbxMaker.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbxMaker.FormattingEnabled = true;
             this.cbxMaker.Location = new System.Drawing.Point(140, 184);
             this.cbxMaker.Name = "cbxMaker";
@@ -159,9 +161,11 @@
             this.btnOk.TabIndex = 16;
             this.btnOk.Text = "OK";
             this.btnOk.UseVisualStyleBackColor = true;
+            this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
             // 
             // btnCancel
             // 
+            this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnCancel.Location = new System.Drawing.Point(224, 357);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
@@ -211,6 +215,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(395, 415);
             this.Controls.Add(this.tbxCatalogItemId);
             this.Controls.Add(this.lbCatalogItemId);
@@ -232,6 +237,7 @@
             this.Controls.Add(this.lbName);
             this.MaximizeBox = false;
             this.Name = "FrmCatalogItem";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Catalog Item";
             ((System.ComponentModel.ISupportInitialize)(this.nudPrice)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudInStock)).EndInit();

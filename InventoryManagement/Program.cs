@@ -19,6 +19,7 @@ namespace InventoryManagement
             // Set up delegate responsible for showing forms
             DmNewCatalogItem.LoadCatalogItemFormDelegate = new LoadCatalogItemForm(FrmNewCatalogItem.Instance.Run);
             DmUsedCatalogItem.LoadCatalogItemFormDelegate = new LoadCatalogItemForm(FrmUsedCatalogItem.Instance.Run);
+            DmOrder.LoadOrderFormDelegate = new LoadOrderForm(FrmOrder.Instance.Run);
 
             Application.Run(new FrmManagement());
         }

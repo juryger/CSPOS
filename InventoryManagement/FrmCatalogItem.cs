@@ -1,7 +1,6 @@
 ﻿using CSPOS.Domain.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Windows.Forms;
 
 namespace InventoryManagement
@@ -9,59 +8,51 @@ namespace InventoryManagement
     public partial class FrmCatalogItem : Form
     {
         protected DmCatalogItem _catalogItem;
+        protected IList<DmCatalogCategory> _dsCategories;
+        protected IList<DmCatalogMaker> _dsMakers;
 
         protected FrmCatalogItem()
         {
             InitializeComponent();
-
-            var cultureInfo = System.Globalization.CultureInfo.GetCultureInfo("en-NZ");
-            dtpManufactureDate.Format = DateTimePickerFormat.Custom;
-            var formats = dtpManufactureDate.Value.GetDateTimeFormats(cultureInfo);
-            dtpManufactureDate.CustomFormat = formats[11];
-        }
-
-        public ComboBox Categories
-        {
-            get { return cbxCategory; }
-        }
-
-        public ComboBox Makers
-        {
-            get { return cbxMaker; }
         }
 
         protected virtual void UpdateForm()
         {
+            tbxCatalogItemId.Text = _catalogItem.CatalogItemID.ToString();
             tbxName.Text = _catalogItem.Name;
             tbxDescription.Text = _catalogItem.Description;
             nudPrice.Value = _catalogItem.Price;
             nudInStock.Value = _catalogItem.InStockNum;
             dtpManufactureDate.Value = _catalogItem.ManufactureDate;
 
-            var dsCategory = cbxCategory.DataSource as IList<DmCatalogCategory>;
-            if (dsCategory != null)
-            {
-                var itemToSelect = dsCategory.FirstOrDefault(x => x.CatalogCategoryID == _catalogItem.CategoryID);
-                cbxCategory.SelectedValue = itemToSelect;
-            }
+            cbxCategory.DataSource = null;
+            cbxCategory.DisplayMember = nameof(DmCatalogCategory.Name);
+            cbxCategory.ValueMember = nameof(DmCatalogCategory.CatalogCategoryID);
+            cbxCategory.SelectedValue = _catalogItem.CategoryID;
+            cbxCategory.DataSource = _dsCategories;
 
-            var dsMaker = cbxMaker.DataSource as IList<DmCatalogMaker>;
-            if (dsMaker != null)
-            {
-                var itemToSelect = dsMaker.FirstOrDefault(x => x.CatalogMakerID == _catalogItem.MakerID);
-                cbxMaker.SelectedValue = itemToSelect;
-            }
+            cbxMaker.DataSource = null;
+            cbxMaker.DisplayMember = nameof(DmCatalogMaker.Name);
+            cbxMaker.ValueMember = nameof(DmCatalogMaker.CatalogMakerID);
+            cbxMaker.DataSource = _dsMakers;
+            cbxMaker.SelectedValue = _catalogItem.MakerID;
         }
 
         protected virtual void PushData()
         {
             _catalogItem.Name = tbxName.Text;
             _catalogItem.Description = tbxDescription.Text;
-            _catalogItem.CategoryID = (cbxCategory.SelectedValue as DmCatalogCategory).CatalogCategoryID;
-            _catalogItem.MakerID = (cbxMaker.SelectedValue as DmCatalogMaker).CatalogMakerID;
+            _catalogItem.CategoryID = (cbxCategory.SelectedItem as DmCatalogCategory).CatalogCategoryID;
+            _catalogItem.MakerID = (cbxMaker.SelectedItem as DmCatalogMaker).CatalogMakerID;
             _catalogItem.Price = nudPrice.Value;
             _catalogItem.InStockNum = Convert.ToInt32(nudInStock.Value);
             _catalogItem.ManufactureDate = dtpManufactureDate.Value;
+        }
+
+        private void btnOk_Click(object sender, EventArgs e)
+        {
+            PushData();
+            DialogResult = DialogResult.OK;
         }
     }
 }

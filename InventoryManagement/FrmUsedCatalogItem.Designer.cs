@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.lbCondition = new System.Windows.Forms.Label();
-            this.cbxCondition = new System.Windows.Forms.ComboBox();
+            this.cbxConditions = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // lbCondition
@@ -41,25 +41,26 @@
             this.lbCondition.TabIndex = 16;
             this.lbCondition.Text = "Condition";
             // 
-            // cbxCondition
+            // cbxConditions
             // 
-            this.cbxCondition.FormattingEnabled = true;
-            this.cbxCondition.Location = new System.Drawing.Point(138, 308);
-            this.cbxCondition.Name = "cbxCondition";
-            this.cbxCondition.Size = new System.Drawing.Size(202, 21);
-            this.cbxCondition.TabIndex = 17;
+            this.cbxConditions.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbxConditions.FormattingEnabled = true;
+            this.cbxConditions.Location = new System.Drawing.Point(140, 308);
+            this.cbxConditions.Name = "cbxConditions";
+            this.cbxConditions.Size = new System.Drawing.Size(200, 21);
+            this.cbxConditions.TabIndex = 18;
             // 
             // FrmUsedCatalogItem
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(393, 414);
-            this.Controls.Add(this.cbxCondition);
+            this.Controls.Add(this.cbxConditions);
             this.Controls.Add(this.lbCondition);
             this.Name = "FrmUsedCatalogItem";
             this.Text = "Used catalog item";
             this.Controls.SetChildIndex(this.lbCondition, 0);
-            this.Controls.SetChildIndex(this.cbxCondition, 0);
+            this.Controls.SetChildIndex(this.cbxConditions, 0);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -68,6 +69,6 @@
         #endregion
 
         private System.Windows.Forms.Label lbCondition;
-        private System.Windows.Forms.ComboBox cbxCondition;
+        private System.Windows.Forms.ComboBox cbxConditions;
     }
 }

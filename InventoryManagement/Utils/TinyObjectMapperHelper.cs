@@ -40,7 +40,27 @@ namespace InventoryManagement.Utils
 
             TinyMapper.Bind<DmOrderItem, DtoOrderItem>();
 
-            TinyMapper.Bind<DmOrder, DtoOrder>();
+            TinyMapper.Bind<DmOrder, DtoOrder>(config =>
+            {
+                config.Ignore(x => x.navOrderItems);
+                //config.Bind(source => source.navOrderItems, target => target.navOrderItems);
+            });
+            TinyMapper.Bind<DtoOrder, DmOrder>(config =>
+            {
+                config.Ignore(x => x.navOrderItems);
+                //config.Bind(source => source.navOrderItems, target => target.navOrderItems);
+            });
+
+            // References
+            TinyMapper.Bind<DtoCatalogCategory, DmCatalogCategory>();
+
+            TinyMapper.Bind<DtoCatalogCondition, DmCatalogCondition>();
+
+            TinyMapper.Bind<DtoCatalogMaker, DmCatalogMaker>();
+
+            TinyMapper.Bind<DtoCatalogType, DmCatalogType>();
+
+            TinyMapper.Bind<DtoOrderStatus, DmOrderStatus>();
         }
 
         public TTarget Map<TTarget>(object source)

@@ -4,6 +4,7 @@ using CSPOS.Domain.Models;
 using InventoryManagement.Utils;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -11,11 +12,11 @@ namespace InventoryManagement
 {
     public partial class FrmManagement : Form
     {
-        private List<DmCatalogItem> _dsCatalog;
+        private BindingList<DmCatalogItem> _dsCatalog;
         private List<DmCatalogCategory> _dsCatalogCategories;
         private List<DmCatalogMaker> _dsCatalogMakers;
         private List<DmCatalogCondition> _dsCatalogConditions;
-        private List<DmOrder> _dsOrders;
+        private BindingList<DmOrder> _dsOrders;
         private List<DmOrderStatus> _dsOrderStatuses;
 
         private TinyObjectMapperHelper _objMapper;
@@ -35,12 +36,6 @@ namespace InventoryManagement
         private DmOrder SelectedOrder
         {
             get { return lbxOrders.SelectedItem as DmOrder; }
-        }
-
-        private void btnOrderFilter_Click(object sender, EventArgs e)
-        {
-            var of = new FrmOrder();
-            of.Show();
         }
 
         private void ManagementForm_Load(object sender, EventArgs e)
@@ -67,92 +62,93 @@ namespace InventoryManagement
             cbxMaker.DataSource = null;
             cbxType.DataSource = null;
 
-            try
+            ServiceClient.GetCatalogAsync()
+            .ContinueWith(t =>
             {
-                ServiceClient.GetCatalogAsync()
-                .ContinueWith(t =>
+                try
                 {
                     lbxCatalog.Invoke(
                         new Action(() =>
                         {
-                            _dsCatalog = t.Result.Select(s => DoCatalogObjectMapping(s)).ToList();
+                            _dsCatalog = new BindingList<DmCatalogItem>(
+                                t.Result.Select(s => DoCatalogObjectMapping(s)).ToList());
 
                             lbxCatalog.DataSource = _dsCatalog;
                             lbxCatalog.DisplayMember = nameof(DmCatalogItem.Summary);
 
                             tsStatus.Text = string.Format("Catalog items: {0}", _dsCatalog.Count);
                         }));
-                })
-                .ContinueWith(t =>
+                }
+                catch (Exception ex)
                 {
-                    ServiceClient.GetCatalogCategoriesAsync()
-                        .ContinueWith(st =>
-                        {
-                            cbxCategory.Invoke(
-                                new Action(() =>
-                                {
-                                    _dsCatalogCategories =
-                                        st.Result.Select(s => _objMapper.Map<DmCatalogCategory>(s)).ToList();
-
-                                    cbxCategory.DataSource = _dsCatalogCategories;
-                                    cbxCategory.DisplayMember = nameof(DmCatalogCategory.Name);
-                                }));
-
-                        });
-                })
-                .ContinueWith(t =>
-                {
-                    ServiceClient.GetCatalogMakersAsync()
-                        .ContinueWith(st =>
-                        {
-                            cbxMaker.Invoke(
-                                new Action(() =>
-                                {
-                                    _dsCatalogMakers =
-                                        st.Result.Select(s => _objMapper.Map<DmCatalogMaker>(s)).ToList();
-
-                                    cbxMaker.DataSource = _dsCatalogMakers;
-                                    cbxCategory.DisplayMember = nameof(DmCatalogMaker.Name);
-                                }));
-
-                        });
-                })
-                .ContinueWith(t =>
-                {
-                    ServiceClient.GetCatalogTypesAsync()
-                        .ContinueWith(st =>
-                        {
-                            cbxType.Invoke(
-                                new Action(() =>
-                                {
-                                    cbxType.DataSource =
-                                        st.Result.Select(s => _objMapper.Map<DmCatalogType>(s)).ToList();
-                                    cbxCategory.DisplayMember = nameof(DmCatalogType.Name);
-                                }));
-
-                        });
-                })
-                .ContinueWith(t =>
-                {
-                    ServiceClient.GetCatalogConditionsAsync()
-                        .ContinueWith(st =>
-                        {
-                            this.Invoke(
-                                new Action(() =>
-                                {
-                                    _dsCatalogConditions =
-                                        st.Result.Select(s => _objMapper.Map<DmCatalogCondition>(s)).ToList();
-                                }));
-
-                        });
-                });
-            }
-            catch (Exception ex)
+                    this.Invoke(new Action<string>(NotifyError),
+                        string.Format("Error occured during loading catalog: {0}",
+                            ex.InnerException != null ? ex.InnerException.Message : ex.Message));
+                }
+            })
+            .ContinueWith(t =>
             {
-                this.Invoke(new Action<string>(NotifyError),
-                    string.Format("Error occured during loading catalog: {0}",
-                        ex.InnerException != null ? ex.InnerException.Message : ex.Message));
-            }
+                ServiceClient.GetCatalogCategoriesAsync()
+                    .ContinueWith(tCategory =>
+                    {
+                        cbxCategory.Invoke(
+                            new Action(() =>
+                            {
+                                _dsCatalogCategories =
+                                    tCategory.Result.Select(s => _objMapper.Map<DmCatalogCategory>(s)).ToList();
+
+                                cbxCategory.DataSource = _dsCatalogCategories;
+                                cbxCategory.DisplayMember = nameof(DmCatalogCategory.Name);
+                            }));
+
+                    });
+            })
+            .ContinueWith(t =>
+            {
+                ServiceClient.GetCatalogMakersAsync()
+                    .ContinueWith(tMakers =>
+                    {
+                        cbxMaker.Invoke(
+                            new Action(() =>
+                            {
+                                _dsCatalogMakers =
+                                    tMakers.Result.Select(s => _objMapper.Map<DmCatalogMaker>(s)).ToList();
+
+                                cbxMaker.DataSource = _dsCatalogMakers;
+                                cbxMaker.DisplayMember = nameof(DmCatalogMaker.Name);
+                            }));
+
+                    });
+            })
+            .ContinueWith(t =>
+            {
+                ServiceClient.GetCatalogConditionsAsync()
+                    .ContinueWith(tConditions =>
+                    {
+                        this.Invoke(
+                            new Action(() =>
+                            {
+                                _dsCatalogConditions =
+                                    tConditions.Result.Select(s => _objMapper.Map<DmCatalogCondition>(s)).ToList();
+                            }));
+
+                    });
+            })
+            .ContinueWith(t =>
+            {
+                ServiceClient.GetCatalogTypesAsync()
+                    .ContinueWith(tTypes =>
+                    {
+                        cbxType.Invoke(
+                            new Action(() =>
+                            {
+                                cbxType.DataSource =
+                                    tTypes.Result.Select(s => _objMapper.Map<DmCatalogType>(s)).ToList();
+                                cbxType.DisplayMember = nameof(DmCatalogType.Name);
+                            }));
+
+                    });
+            });
         }
 
         private DmCatalogItem DoCatalogObjectMapping(DtoCatalogItem dto)
@@ -169,48 +165,59 @@ namespace InventoryManagement
             cbxOrderStatus.DataSource = null;
             cbxOrderCustomer.DataSource = null;
 
-            try
-            {
-                ServiceClient.GetOrdersAsync()
-                    .ContinueWith(t =>
+            ServiceClient.GetOrdersAsync()
+                .ContinueWith(t =>
+                {
+                    try
                     {
                         lbxCatalog.Invoke(
-                            new Action(() =>
-                            {
-                                _dsOrders = t.Result.Select(s => _objMapper.Map<DmOrder>(s)).ToList();
+                                new Action(() =>
+                                {
+                                    _dsOrders = new BindingList<DmOrder>(
+                                        t.Result.Select(s =>
+                                        {
+                                            var tmp = _objMapper.Map<DmOrder>(s);
+                                            tmp.navOrderItems = s.navOrderItems.Select(x => _objMapper.Map<DmOrderItem>(x)).ToList();
+                                            return tmp;
 
-                                lbxOrders.DataSource = _dsOrders;
-                                lbxOrders.DisplayMember = nameof(DmOrder.Summary);
+                                        })
+                                        .ToList());
 
-                                cbxOrderCustomer.DataSource = _dsOrders.Select(x => x.CustomerName);
+                                    lbxOrders.DataSource = _dsOrders;
+                                    lbxOrders.DisplayMember = nameof(DmOrder.Summary);
 
-                                tsStatus.Text = string.Format("Total orders sum: {0}", _dsOrders.SelectMany(o => o.navOrderItems).Sum(x => x.Price));
+                                    cbxOrderCustomer.DataSource = _dsOrders.Select(x => x.CustomerName).ToList();
 
-                            }));
-                    })
-                    .ContinueWith(t =>
+                                    // Calculating overall orders money summ 
+                                    var orderItems = _dsOrders.SelectMany(o => o.navOrderItems).ToList();
+                                    tsStatus.Text = string.Format("Total orders sum: {0}",
+                                        orderItems != null ? orderItems.Sum(x => x.Price) :
+                                        0);
+                                }));
+                    }
+                    catch (Exception ex)
                     {
-                        ServiceClient.GetOrderStatusesAsync()
-                            .ContinueWith(st =>
-                            {
-                                cbxOrderStatus.Invoke(
-                                    new Action(() =>
-                                    {
-                                        _dsOrderStatuses =
-                                            st.Result.Select(s => _objMapper.Map<DmOrderStatus>(s)).ToList();
+                        this.Invoke(new Action<string>(NotifyError),
+                            string.Format("Error occured during loading orders: {0}",
+                                ex.InnerException != null ? ex.InnerException.Message : ex.Message));
+                    }
+                })
+                .ContinueWith(t =>
+                {
+                    ServiceClient.GetOrderStatusesAsync()
+                        .ContinueWith(tStatuses =>
+                        {
+                            cbxOrderStatus.Invoke(
+                                new Action(() =>
+                                {
+                                    _dsOrderStatuses =
+                                        tStatuses.Result.Select(s => _objMapper.Map<DmOrderStatus>(s)).ToList();
 
-                                        cbxOrderStatus.DataSource = _dsOrderStatuses;
-                                        cbxOrderStatus.DisplayMember = nameof(DmOrderStatus.Name);
-                                    }));
-                            });
-                    });
-            }
-            catch (Exception ex)
-            {
-                this.Invoke(new Action<string>(NotifyError),
-                    string.Format("Error occured during loading orders: {0}",
-                        ex.InnerException != null ? ex.InnerException.Message : ex.Message));
-            }
+                                    cbxOrderStatus.DataSource = _dsOrderStatuses;
+                                    cbxOrderStatus.DisplayMember = nameof(DmOrderStatus.Name);
+                                }));
+                        });
+                });
         }
 
         private void NotifyError(string message)
@@ -226,6 +233,8 @@ namespace InventoryManagement
         {
             if (tcContent.SelectedIndex == 0)
                 LoadCatalog();
+            else if (tcContent.SelectedIndex == 1)
+                LoadOrders();
         }
 
         private void tsbAdd_Click(object sender, EventArgs e)
@@ -266,8 +275,13 @@ namespace InventoryManagement
                         {
                             this.Invoke(new Action(() =>
                             {
-                                // TODO: analyse response t.Result
+                                if (t.Result.ResponseCode != System.Net.HttpStatusCode.OK)
+                                {
+                                    MessageBox.Show("Operation failed: " + t.Result.ResponseMessage);
+                                    return;
+                                }
 
+                                catalogItem.CatalogItemID = Convert.ToInt32(t.Result.ResponseResult);
                                 _dsCatalog.Add(catalogItem);
                             }));
                         }
@@ -300,9 +314,47 @@ namespace InventoryManagement
                         {
                             this.Invoke(new Action(() =>
                             {
-                                // TODO: analyse response t.Result
+                                if (t.Result.ResponseCode != System.Net.HttpStatusCode.OK)
+                                {
+                                    MessageBox.Show("Operation failed: " + t.Result.ResponseMessage);
+                                    return;
+                                }
 
                                 catalogItem.SyncState(editCatalogItem);
+                            }));
+                        }
+                        catch (Exception ex)
+                        {
+                            this.Invoke(new Action<string>(NotifyError),
+                                ex.InnerException != null ? ex.InnerException.Message : ex.Message);
+                        }
+                    });
+            }
+            else if (tcContent.SelectedIndex == 1)
+            {
+                var order = SelectedOrder;
+                if (order == null)
+                    return;
+
+                var editOrder = order.MakeCopy();
+
+                if (DialogResult.Cancel == editOrder.EditDetails(_dsOrderStatuses))
+                    return;
+
+                ServiceClient.UpdateOrderAsync(editOrder)
+                    .ContinueWith(t =>
+                    {
+                        try
+                        {
+                            this.Invoke(new Action(() =>
+                            {
+                                if (t.Result.ResponseCode != System.Net.HttpStatusCode.OK)
+                                {
+                                    MessageBox.Show("Operation failed: " + t.Result.ResponseMessage);
+                                    return;
+                                }
+
+                                order.SyncState(editOrder);
                             }));
                         }
                         catch (Exception ex)
@@ -322,7 +374,7 @@ namespace InventoryManagement
                 if (catalogItem == null)
                     return;
 
-                if (MessageBox.Show("Are you sure?", "Deleting item", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
+                if (MessageBox.Show("Are you sure?", "Deleting catalog item", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
                     return;
 
                 ServiceClient.DeleteCatalogItemAsync(catalogItem.CatalogItemID)
@@ -332,7 +384,11 @@ namespace InventoryManagement
                         {
                             this.Invoke(new Action(() =>
                             {
-                                // TODO: analyse response t.Result
+                                if (t.Result.ResponseCode != System.Net.HttpStatusCode.OK)
+                                {
+                                    MessageBox.Show("Operation failed: " + t.Result.ResponseMessage);
+                                    return;
+                                }
 
                                 _dsCatalog.Remove(catalogItem);
                             }));
@@ -344,10 +400,38 @@ namespace InventoryManagement
                         }
                     });
             }
-        }
+            else if (tcContent.SelectedIndex == 1)
+            {
+                var order = SelectedOrder;
+                if (order == null)
+                    return;
 
-        private void lbxOrders_SelectedValueChanged(object sender, EventArgs e)
-        {
+                if (MessageBox.Show("Are you sure?", "Deleting order", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
+                    return;
+
+                ServiceClient.DeleteOrderAsync(order.OrderID)
+                    .ContinueWith(t =>
+                    {
+                        try
+                        {
+                            this.Invoke(new Action(() =>
+                            {
+                                if (t.Result.ResponseCode != System.Net.HttpStatusCode.OK)
+                                {
+                                    MessageBox.Show("Operation failed: " + t.Result.ResponseMessage);
+                                    return;
+                                }
+
+                                _dsOrders.Remove(order);
+                            }));
+                        }
+                        catch (Exception ex)
+                        {
+                            this.Invoke(new Action<string>(NotifyError),
+                                ex.InnerException != null ? ex.InnerException.Message : ex.Message);
+                        }
+                    });
+            }
         }
     }
 }

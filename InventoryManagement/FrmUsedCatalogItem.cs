@@ -1,12 +1,13 @@
 ﻿using CSPOS.Domain.Models;
 using System.Collections.Generic;
-using System.Linq;
 using System.Windows.Forms;
 
 namespace InventoryManagement
 {
     public partial class FrmUsedCatalogItem : FrmCatalogItem
     {
+        protected IList<DmCatalogCondition> _dsConditions;
+
         private static readonly FrmUsedCatalogItem _instance = new FrmUsedCatalogItem();
 
         public static FrmUsedCatalogItem Instance
@@ -27,16 +28,10 @@ namespace InventoryManagement
             IList<DmCatalogMaker> pMakers,
             IList<DmCatalogCondition> pConditions)
         {
-            _catalogItem = pCatalogItem;
-
-            base.Categories.DataSource = pCategories;
-            base.Categories.DisplayMember = nameof(DmCatalogCategory.Name);
-
-            base.Makers.DataSource = pMakers;
-            base.Makers.DisplayMember = nameof(DmCatalogMaker.Name);
-
-            cbxCondition.DataSource = pConditions;
-            cbxCondition.DisplayMember = nameof(DmCatalogCondition.Name);
+            base._catalogItem = pCatalogItem;
+            base._dsCategories = pCategories;
+            base._dsMakers = pMakers;
+            this._dsConditions = pConditions;
 
             UpdateForm();
 
@@ -47,21 +42,17 @@ namespace InventoryManagement
         {
             base.UpdateForm();
 
-            var dsCondition = cbxCondition.DataSource as IList<DmCatalogCondition>;
-            if (dsCondition != null)
-            {
-                var itemToSelect = dsCondition.FirstOrDefault(x =>
-                    x.CatalogConditionID == (_catalogItem as DmUsedCatalogItem).ConditionID);
-                cbxCondition.SelectedValue = itemToSelect;
-            }
-            cbxCondition.SelectedValue = (_catalogItem as DmUsedCatalogItem).ConditionID.Value;
+            cbxConditions.DataSource = _dsConditions;
+            cbxConditions.DisplayMember = nameof(DmCatalogCondition.Name);
+            cbxConditions.ValueMember = nameof(DmCatalogCondition.CatalogConditionID);
+            cbxConditions.SelectedValue = (_catalogItem as DmUsedCatalogItem).ConditionID;
         }
 
         protected override void PushData()
         {
             base.PushData();
 
-            (_catalogItem as DmUsedCatalogItem).ConditionID = (cbxCondition.SelectedValue as DmCatalogCondition).CatalogConditionID;
+            (_catalogItem as DmUsedCatalogItem).ConditionID = (cbxConditions.SelectedItem as DmCatalogCondition).CatalogConditionID;
         }
 
     }

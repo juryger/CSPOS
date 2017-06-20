@@ -27,13 +27,9 @@ namespace InventoryManagement
             IList<DmCatalogMaker> pMakers,
             IList<DmCatalogCondition> pConditions)
         {
-            _catalogItem = pCatalogItem;
-
-            base.Categories.DataSource = pCategories;
-            base.Categories.DisplayMember = nameof(DmCatalogCategory.Name);
-
-            base.Makers.DataSource = pMakers;
-            base.Makers.DisplayMember = nameof(DmCatalogMaker.Name);
+            base._catalogItem = pCatalogItem;
+            base._dsCategories = pCategories;
+            base._dsMakers = pMakers;
 
             UpdateForm();
 
